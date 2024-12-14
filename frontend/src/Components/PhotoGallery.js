@@ -5,7 +5,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 function PhotoGallery() {
     return (
         <div className='photogallery-container'>
-            <h1 className='photogallery-title'>Photo Gallery</h1>
+            <h1 className='photogallery-title'>Thư viện ảnh </h1>
             <div className="photogallery-images">
                 <img src="https://source.unsplash.com/1300x1200/?algeria" alt=''/>
                 <img src="https://source.unsplash.com/1300x1200/?lebanon" alt=''/>

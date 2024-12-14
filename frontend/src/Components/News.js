@@ -4,7 +4,7 @@ import './News.css'
 function News() {
     return (
         <div className='news-container'>
-            <h className='news-title'>Updates for You</h>
+            <h className='news-title'>Cập nhật kiến thức cho bạn </h>
             <div className='news-data'>
                 <div className='news-empty'></div>
                 <div>

@@ -159,13 +159,13 @@ function AddTransaction() {
 
     return (
         <div>
-            <p className="dashboard-option-title">Add a Transaction</p>
+            <p className="dashboard-option-title">Thêm Giao Dịch </p>
             <div className="dashboard-title-line"></div>
             <form className='transaction-form' onSubmit={addTransaction}>
-                <label className="transaction-form-label" htmlFor="borrowerId">Borrower<span className="required-field">*</span></label><br />
+                <label className="transaction-form-label" htmlFor="borrowerId">Người mượn <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
                     <Dropdown
-                        placeholder='Select Member'
+                        placeholder='Chọn Thành Viên '
                         fluid
                         search
                         selection
@@ -219,10 +219,10 @@ function AddTransaction() {
                     }
                 </table>
 
-                <label className="transaction-form-label" htmlFor="bookName">Book Name<span className="required-field">*</span></label><br />
+                <label className="transaction-form-label" htmlFor="bookName">Tên Sách <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
                     <Dropdown
-                        placeholder='Select a Book'
+                        placeholder='Chọn Sách '
                         fluid
                         search
                         selection
@@ -238,10 +238,10 @@ function AddTransaction() {
                     </tr>
                 </table>
 
-                <label className="transaction-form-label" htmlFor="transactionType">Transaction Type<span className="required-field">*</span></label><br />
+                <label className="transaction-form-label" htmlFor="transactionType">Hình Thức Mượn Sách <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
                     <Dropdown
-                        placeholder='Select Transaction'
+                        placeholder='Chọn Giao Dịch '
                         fluid
                         selection
                         value={transactionType}
@@ -251,7 +251,7 @@ function AddTransaction() {
                 </div>
                 <br />
 
-                <label className="transaction-form-label" htmlFor="from-date">From Date<span className="required-field">*</span></label><br />
+                <label className="transaction-form-label" htmlFor="from-date">Từ Ngày <span className="required-field">*</span></label><br />
                 <DatePicker
                     className="date-picker"
                     placeholderText="MM/DD/YYYY"
@@ -261,7 +261,7 @@ function AddTransaction() {
                     dateFormat="MM/dd/yyyy"
                 />
 
-                <label className="transaction-form-label" htmlFor="to-date">To Date<span className="required-field">*</span></label><br />
+                <label className="transaction-form-label" htmlFor="to-date">Đến Ngày <span className="required-field">*</span></label><br />
                 <DatePicker
                     className="date-picker"
                     placeholderText="MM/DD/YYYY"
@@ -271,16 +271,16 @@ function AddTransaction() {
                     dateFormat="MM/dd/yyyy"
                 />
 
-                <input className="transaction-form-submit" type="submit" value="SUBMIT" disabled={isLoading}></input>
+                <input className="transaction-form-submit" type="submit" value="TẠO GIAO DỊCH " disabled={isLoading}></input>
             </form>
-            <p className="dashboard-option-title">Recent Transactions</p>
+            <p className="dashboard-option-title">Lịch Sử Mượn Sách </p>
             <div className="dashboard-title-line"></div>
             <table className="admindashboard-table">
                 <tr>
-                    <th>S.No</th>
-                    <th>Book Name</th>
-                    <th>Borrower Name</th>
-                    <th>Date</th>
+                    <th>STT </th>
+                    <th>Tên Sách </th>
+                    <th>Tên Người Mượn </th>
+                    <th>Ngày Mượn</th>
                 </tr>
                 {
                     recentTransactions.map((transaction, index) => {

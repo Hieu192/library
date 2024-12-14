@@ -85,29 +85,29 @@ function AddBook() {
 
     return (
         <div>
-            <p className="dashboard-option-title">Add a Book</p>
+            <p className="dashboard-option-title">Thêm sách </p>
             <div className="dashboard-title-line"></div>
             <form className='addbook-form' onSubmit={addBook}>
 
-                <label className="addbook-form-label" htmlFor="bookName">Book Name<span className="required-field">*</span></label><br />
+                <label className="addbook-form-label" htmlFor="bookName">Tên Sách <span className="required-field">*</span></label><br />
                 <input className="addbook-form-input" type="text" name="bookName" value={bookName} onChange={(e) => { setBookName(e.target.value) }} required></input><br />
 
-                <label className="addbook-form-label" htmlFor="alternateTitle">AlternateTitle</label><br />
+                <label className="addbook-form-label" htmlFor="alternateTitle">Tiêu đề thay thế </label><br />
                 <input className="addbook-form-input" type="text" name="alternateTitle" value={alternateTitle} onChange={(e) => { setAlternateTitle(e.target.value) }}></input><br />
 
-                <label className="addbook-form-label" htmlFor="author">Author Name<span className="required-field">*</span></label><br />
+                <label className="addbook-form-label" htmlFor="author">Tên Tác Giả <span className="required-field">*</span></label><br />
                 <input className="addbook-form-input" type="text" name="author" value={author} onChange={(e) => { setAuthor(e.target.value) }} required></input><br />
 
-                <label className="addbook-form-label" htmlFor="language">Language</label><br />
+                <label className="addbook-form-label" htmlFor="language">Ngôn Ngữ </label><br />
                 <input className="addbook-form-input" type="text" name="language" value={language} onChange={(e) => { setLanguage(e.target.value) }}></input><br />
 
-                <label className="addbook-form-label" htmlFor="publisher">Publisher</label><br />
+                <label className="addbook-form-label" htmlFor="publisher">Nhà xuất bản </label><br />
                 <input className="addbook-form-input" type="text" name="publisher" value={publisher} onChange={(e) => { setPublisher(e.target.value) }}></input><br />
 
-                <label className="addbook-form-label" htmlFor="copies">No.of Copies Available<span className="required-field">*</span></label><br />
+                <label className="addbook-form-label" htmlFor="copies">Số lượng bản sao có sẵn <span className="required-field">*</span></label><br />
                 <input className="addbook-form-input" type="text" name="copies" value={bookCountAvailable} onChange={(e) => { setBookCountAvailable(e.target.value) }} required></input><br />
 
-                <label className="addbook-form-label" htmlFor="categories">Categories<span className="required-field">*</span></label><br />
+                <label className="addbook-form-label" htmlFor="categories">Thể loại <span className="required-field">*</span></label><br />
                 <div className="semanticdropdown">
                     <Dropdown
                         placeholder='Category'
@@ -121,16 +121,16 @@ function AddBook() {
                     />
                 </div>
 
-                <input className="addbook-submit" type="submit" value="SUBMIT" disabled={isLoading}></input>
+                <input className="addbook-submit" type="submit" value="THÊM SÁCH " disabled={isLoading}></input>
             </form>
             <div>
-                <p className="dashboard-option-title">Recently Added Books</p>
+                <p className="dashboard-option-title">Sách đã được thêm gần đây </p>
                 <div className="dashboard-title-line"></div>
                 <table className='admindashboard-table'>
                     <tr>
-                        <th>S.No</th>
-                        <th>Book Name</th>
-                        <th>Added Date</th>
+                        <th>STT</th>
+                        <th>Tên Sách </th>
+                        <th>Ngày Thêm </th>
                     </tr>
                     {
                         recentAddedBooks.map((book, index) => {

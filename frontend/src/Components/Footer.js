@@ -12,26 +12,25 @@ function Footer() {
             <div>
                 <div className='footer-data'>
                     <div className="contact-details">
-                        <h1>Contact Us</h1>
-                        <p>Librarian</p>
-                        <p>Government School</p>
-                        <p>Visakhapatnam-530041</p>
-                        <p>Andhra Pradesh</p>
-                        <p>India</p>
-                        <p><b>Email:</b>example@gmail.com</p>
+                        <h1>Liên hệ với chúng tôi </h1>
+                        <p>Thủ thư </p>
+                        <p>UIT-ĐHQG</p>
+                        <p>Phạm Quang Hiếu </p>
+                        <p>Việt Nam </p>
+                        <p><b>Email:</b>21520235@gm.uit.edu.vn</p>
                     </div>
-                    <div className='usefull-links'>
+                    {/* <div className='usefull-links'>
                         <h1>Usefull Links</h1>
                         <a href='#home'>Link-1</a>
                         <a href='#home'>Link-1</a>
                         <a href='#home'>Link-1</a>
                         <a href='#home'>Link-1</a>
-                    </div>
+                    </div> */}
                     <div className='librarian-details'>
-                        <h1>Librarian</h1>
-                        <p>Name</p>
-                        <p>Education</p>
-                        <p>Contact: +91 9123456787</p>
+                        <h1>Thủ thư </h1>
+                        <p>Phạm Quang Hiếu </p>
+                        <p>Giáo dục </p>
+                        <p>Liên hệ: 0828190223 </p>
                     </div>
                 </div>
                 <div className="contact-social" >
@@ -42,7 +41,7 @@ function Footer() {
                 </div>
             </div>
             <div className='copyright-details'>
-                <p className='footer-copyright'>&#169; 2020 copyright all right reserved<br /><span>Designed with ❤️ by Pranavdhar Reddy</span></p>
+                {/* <p className='footer-copyright'>&#169; 2020 copyright all right reserved<br /><span>Designed with ❤️ by Pranavdhar Reddy</span></p> */}
             </div>
         </div>
     )

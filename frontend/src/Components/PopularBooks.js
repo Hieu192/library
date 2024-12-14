@@ -4,7 +4,7 @@ import "./PopularBooks.css";
 function PopularBooks() {
   return (
     <div className="popularbooks-container">
-      <h className="popularbooks-title">Popular Books</h>
+      <h className="popularbooks-title">Sách phổ biến </h>
       <div className="popularbooks">
         <div className="popularbook-images">
           <img

@@ -40,7 +40,7 @@ function Signin() {
                     <h2 className="signin-title"> Log in</h2>
                     <p className="line"></p>
                     <div className="persontype-question">
-                        <p>Are you a Staff member ?</p>
+                        <p>Bạn có phải là nhân viên không ?</p>
                         <Switch
                             onChange={() => setIsStudent(!isStudent)}
                             color="primary"
@@ -48,16 +48,16 @@ function Signin() {
                     </div>
                     <div className="error-message"><p>{error}</p></div>
                     <div className="signin-fields">
-                        <label htmlFor={isStudent?"admissionId":"employeeId"}> <b>{isStudent?"Admission ID":"Employee ID"}</b></label>
-                        <input className='signin-textbox' type="text" placeholder={isStudent?"Enter Admission ID":"Enter Employee ID"} name={isStudent?"admissionId":"employeeId"} required onChange={(e) => { isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
-                        <label htmlFor="password"><b>Password</b></label>
-                        <input className='signin-textbox' type="password" minLength='6' placeholder="Enter Password" name="psw" required onChange={(e) => { setPassword(e.target.value) }} />
+                        <label htmlFor={isStudent?"admissionId":"employeeId"}> <b>{isStudent?"ID Quản trị ":"ID Nhân viên "}</b></label>
+                        <input className='signin-textbox' type="text" placeholder={isStudent?"Nhập tài khoản quản trị":"Nhập tài khoản Nhân viên"} name={isStudent?"admissionId":"employeeId"} required onChange={(e) => { isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
+                        <label htmlFor="password"><b>Mật khẩu </b></label>
+                        <input className='signin-textbox' type="password" minLength='6' placeholder="Nhập mật khẩu " name="psw" required onChange={(e) => { setPassword(e.target.value) }} />
                         </div>
-                    <button className="signin-button">Log In</button>
-                    <a className="forget-pass" href="#home">Forgot password?</a>
+                    <button className="signin-button">Đăng nhập </button>
+                    <a className="forget-pass" href="#home">Quên mật khẩu ?</a>
                 </form>
                 <div className='signup-option'>
-                    <p className="signup-question">Don't have an account? Contact Librarian</p>
+                    <p className="signup-question">Bạn không có tài khoản? Hãy liên hệ thủ thư </p>
                 </div>
             </div>
         </div>

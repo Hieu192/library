@@ -50,7 +50,7 @@ function GetMember() {
         <div>
             <div className='semanticdropdown getmember-dropdown'>
                 <Dropdown
-                    placeholder='Select Member'
+                    placeholder='Chọn Thành Viên '
                     fluid
                     search
                     selection
@@ -75,7 +75,7 @@ function GetMember() {
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <p style={{ display: "flex", flex: "0.5", flexDirection: "column" }}>
                                     <span style={{ fontSize: "18px" }}>
-                                        <b>Age</b>
+                                        <b>Tuổi </b>
                                     </span>
                                     <span style={{ fontSize: "16px" }}>
                                     {memberDetails?.age}
@@ -83,7 +83,7 @@ function GetMember() {
                                 </p>
                                 <p style={{ display: "flex", flex: "0.5", flexDirection: "column" }}>
                                     <span style={{ fontSize: "18px" }}>
-                                        <b>Gender</b>
+                                        <b>Giới Tính </b>
                                     </span>
                                     <span style={{ fontSize: "16px" }}>
                                     {memberDetails?.gender}
@@ -93,7 +93,7 @@ function GetMember() {
                             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "30px" }}>
                                 <p style={{ display: "flex", flex: "0.5", flexDirection: "column" }}>
                                     <span style={{ fontSize: "18px" }}>
-                                        <b>DOB</b>
+                                        <b>Ngày Sinh </b>
                                     </span>
                                     <span style={{ fontSize: "16px" }}>
                                         {memberDetails?.dob}
@@ -101,7 +101,7 @@ function GetMember() {
                                 </p>
                                 <p style={{ display: "flex", flex: "0.5", flexDirection: "column" }}>
                                     <span style={{ fontSize: "18px" }}>
-                                        <b>Address</b>
+                                        <b>Địa Chỉ </b>
                                     </span>
                                     <span style={{ fontSize: "16px" }}>
                                         {memberDetails?.address}
@@ -111,12 +111,12 @@ function GetMember() {
                         </div>
                         <div className="specific-right">
                             <div style={{ display: "flex", flexDirection: "column", flex: "0.5" }}>
-                                <p style={{ fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}><b>Points</b></p>
+                                <p style={{ fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}><b>Điểm </b></p>
                                 <p style={{ fontSize: "25px", fontWeight: "500", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>540</p>
                             </div>
                             <div className="dashboard-title-line"></div>
                             <div style={{ display: "flex", flexDirection: "column", flex: "0.5" }}>
-                                <p style={{ fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}><b>Rank</b></p>
+                                <p style={{ fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}><b>Xếp Hạng </b></p>
                                 <p style={{ fontSize: "25px", fontWeight: "500", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "15px" }}>{memberDetails?.points}</p>
                             </div>
                         </div>
@@ -124,14 +124,14 @@ function GetMember() {
                 </div>
 
                 <div className="member-activebooks-content" id="activebooks@member">
-                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>Issued</p>
+                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>Mượn Sách </p>
                     <table className="activebooks-table">
                         <tr>
-                            <th>S.No</th>
-                            <th>Book-Name</th>
-                            <th>From Date</th>
-                            <th>To Date</th>
-                            <th>Fine</th>
+                            <th>STT </th>
+                            <th>Tên Sách </th>
+                            <th>Từ Ngày </th>
+                            <th>Đến Ngày </th>
+                            <th>Phạt</th>
                         </tr>
                         {
                             memberDetails?.activeTransactions?.filter((data) => {
@@ -143,7 +143,7 @@ function GetMember() {
                                         <td>{data.bookName}</td>
                                         <td>{data.fromDate}</td>
                                         <td>{data.toDate}</td>
-                                        <td>{(Math.floor((Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate)) / 86400000)) <= 0 ? 0 : (Math.floor((Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate)) / 86400000)) * 10}</td>
+                                        <td>{(Math.floor((Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate)) / 86400000)) <= 0 ? 0 : (Math.floor((Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate)) / 86400000)) * 1000}đ </td>
                                     </tr>
                                 )
                             })
@@ -152,13 +152,13 @@ function GetMember() {
                 </div>
 
                 <div className="member-reservedbooks-content" id="reservedbooks@member">
-                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>Reserved</p>
+                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>Đặt Trước </p>
                     <table className="activebooks-table">
                         <tr>
-                            <th>S.No</th>
-                            <th>Book-Name</th>
-                            <th>From</th>
-                            <th>To</th>
+                            <th>STT </th>
+                            <th>Tên Sách </th>
+                            <th>Từ </th>
+                            <th>Đến </th>
                         </tr>
                         {
                             memberDetails?.activeTransactions?.filter((data) => {
@@ -177,14 +177,14 @@ function GetMember() {
                     </table>
                 </div>
                 <div className="member-history-content" id="history@member">
-                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>History</p>
+                    <p style={{ fontWeight: "bold", fontSize: "22px", marginTop: "22px", marginBottom: "22px" }}>Lịch Sử </p>
                     <table className="activebooks-table">
                         <tr>
-                            <th>S.No</th>
-                            <th>Book-Name</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Return Date</th>
+                            <th>STT </th>
+                            <th>Tên Sách </th>
+                            <th>Từ </th>
+                            <th>Đến </th>
+                            <th>Ngày Trả </th>
                         </tr>
                         {
                             memberDetails?.prevTransactions?.map((data, index) => {

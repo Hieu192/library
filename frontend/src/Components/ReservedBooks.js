@@ -4,7 +4,7 @@ import './ReservedBooks.css'
 function ReservedBooks() {
     return (
         <div className='reservedbooks-container'>
-            <h className='reservedbooks-title'>Books On Hold</h>
+            <h className='reservedbooks-title'>Sách đang chờ về </h>
             <table className='reservedbooks-table'>
                 <tr>
                     <th>Name</th>

@@ -101,7 +101,7 @@ function AddMember() {
 
     return (
         <div>
-            <p className="dashboard-option-title">Add a Member</p>
+            <p className="dashboard-option-title">Thêm Thành Viên </p>
             <div className="dashboard-title-line"></div>
             <form className="addmember-form" onSubmit={addMember}>
                 <div className='semanticdropdown'>
@@ -113,16 +113,16 @@ function AddMember() {
                         onChange={(event, data) => setUserType(data.value)}
                     />
                 </div>
-                <label className="addmember-form-label" htmlFor="userFullName">Full Name<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="userFullName">Họ và Tên <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" name="userFullName" value={userFullName} required onChange={(e) => setUserFullName(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor={userType === "Student" ? "admissionId" : "employeeId"}>{userType === "Student" ? "Admission Id" : "Employee Id"}<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor={userType === "Student" ? "admissionId" : "employeeId"}>{userType === "Student" ? "ID Quản trị " : "ID Nhân Viên "}<span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={userType === "Student" ? admissionId : employeeId} required onChange={(e) => { userType === "Student" ? setAdmissionId(e.target.value) : setEmployeeId(e.target.value) }}></input><br />
 
-                <label className="addmember-form-label" htmlFor="mobileNumber">Mobile Number<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="mobileNumber">Số Điện Thoại <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={mobileNumber} required onChange={(e) => setMobileNumber(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor="gender">Gender<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="gender">Giới Tính <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
                     <Dropdown
                         placeholder='User Type'
@@ -134,10 +134,10 @@ function AddMember() {
                     />
                 </div>
 
-                <label className="addmember-form-label" htmlFor="age">Age<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="age">Tuổi <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={age} required onChange={(e) => setAge(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor="dob">Date of Birth<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="dob">Ngày Sinh <span className="required-field">*</span></label><br />
                 <DatePicker
                     className="date-picker"
                     placeholderText="MM/DD/YYYY"
@@ -146,26 +146,26 @@ function AddMember() {
                     dateFormat="MM/dd/yyyy"
                 />
 
-                <label className="addmember-form-label" htmlFor="address">Address<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="address">Địa chỉ <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input address-field" value={address} type="text" required onChange={(e) => setAddress(e.target.value)}></input><br />
 
                 <label className="addmember-form-label" htmlFor="email">Email<span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="email" value={email} required onChange={(e) => setEmail(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor="password">Password<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="password">Mật Khẩu <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input><br />
 
                 <input className="addmember-submit" type="submit" value="SUBMIT" disabled={isLoading} ></input>
 
             </form>
-            <p className="dashboard-option-title">Add a Member</p>
+            <p className="dashboard-option-title">Thêm Thành Viên </p>
             <div className="dashboard-title-line"></div>
             <table className='admindashboard-table'>
                 <tr>
-                    <th>S.No</th>
-                    <th>Member Type</th>
-                    <th>Member ID</th>
-                    <th>Member Name</th>
+                    <th>STT </th>
+                    <th>Loại Thành Viên </th>
+                    <th>ID Thành Viên </th>
+                    <th>Tên Thành Viên </th>
                 </tr>
                 {
                     recentAddedMembers.map((member, index) => {

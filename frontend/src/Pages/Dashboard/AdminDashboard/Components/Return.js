@@ -130,14 +130,14 @@ function Return() {
                     onChange={(event, data) => setBorrowerId(data.value)}
                 />
             </div>
-            <p className="dashboard-option-title">Issued</p>
+            <p className="dashboard-option-title">Mượn sách</p>
             <table className="admindashboard-table">
                     <tr>
-                        <th>Book Name</th>
-                        <th>Borrower Name</th>
-                        <th>From Date</th>
-                        <th>To Date</th>
-                        <th>Fine</th>
+                        <th>Tên Sách </th>
+                        <th>Người Mượn </th>
+                        <th>Từ Ngày </th>
+                        <th>Đến Ngày </th>
+                        <th>Phạt </th>
                         <th></th>
                     </tr>
                     {
@@ -155,20 +155,20 @@ function Return() {
                                     <td>{data.borrowerName}</td>
                                     <td>{data.fromDate}</td>
                                     <td>{data.toDate}</td>
-                                    <td>{(Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000)) <= 0 ? 0 : (Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000))*10}</td>
-                                    <td><button onClick={()=>{returnBook(data._id,data.borrowerId,data.bookId,(Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000)))}}>Return</button></td>
+                                    <td>{(Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000)) <= 0 ? 0 : (Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000))*1000}</td>
+                                    <td><button onClick={()=>{returnBook(data._id,data.borrowerId,data.bookId,(Math.floor(( Date.parse(moment(new Date()).format("MM/DD/YYYY")) - Date.parse(data.toDate) ) / 86400000)))}}>Trả </button></td>
                                 </tr>
                             )
                         })
                     }
                 </table>
-                <p className="dashboard-option-title">Reserved</p>
+                <p className="dashboard-option-title">Đặt trước</p>
             <table className="admindashboard-table">
                     <tr>
-                        <th>Book Name</th>
-                        <th>Borrower Name</th>
-                        <th>From Date</th>
-                        <th>To Date</th>
+                        <th>Tên Sách </th>
+                        <th>Người Mượn </th>
+                        <th>Từ Ngày </th>
+                        <th>Đến Ngày </th>
                         <th></th>
                     </tr>
                     {
