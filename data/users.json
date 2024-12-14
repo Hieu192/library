@@ -1,0 +1,53 @@
+[{
+  "_id": {
+    "$oid": "675417603b2acb41d4c49552"
+  },
+  "address": "",
+  "photo": "",
+  "points": 0,
+  "activeTransactions": [],
+  "prevTransactions": [],
+  "isAdmin": true,
+  "userType": "admin",
+  "admissionId": "admin",
+  "password": "$2b$10$hdhqhb8jKgqov7HuJO4EFOvi9FxagE/lKtxIqRoa7oCTIK8f9KGbe",
+  "createdAt": {
+    "$date": "2024-12-07T09:37:36.817Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:37:36.817Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "675417a03b2acb41d4c4955f"
+  },
+  "address": "phường Phú Thạch",
+  "photo": "",
+  "points": 0,
+  "activeTransactions": [
+    {
+      "$oid": "67541a603b2acb41d4c4958d"
+    }
+  ],
+  "prevTransactions": [],
+  "isAdmin": false,
+  "userType": "Student",
+  "userFullName": "Phạm Quang Hiếu",
+  "admissionId": null,
+  "employeeId": "admin",
+  "age": 21,
+  "dob": "12/03/2024",
+  "gender": "Male",
+  "mobileNumber": 828190203,
+  "email": "hieuthptchuyenbl@gmail.com",
+  "password": "$2b$10$sV/EPGqOVZnRO4TI2c4gjOlI7RIu.UfZz4NXJm4m7HK9/jYRYhdvC",
+  "createdAt": {
+    "$date": "2024-12-07T09:38:40.372Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:50:24.937Z"
+  },
+  "__v": 0
+}]

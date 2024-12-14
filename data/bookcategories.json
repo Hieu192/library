@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "675418fa3b2acb41d4c4956b"
+  },
+  "books": [
+    {
+      "$oid": "6754194a3b2acb41d4c4957a"
+    }
+  ],
+  "categoryName": "trinh thám",
+  "createdAt": {
+    "$date": "2024-12-07T09:44:26.740Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:45:46.944Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "675419043b2acb41d4c4956d"
+  },
+  "books": [],
+  "categoryName": "văn học",
+  "createdAt": {
+    "$date": "2024-12-07T09:44:36.466Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:44:36.466Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6754190f3b2acb41d4c4956f"
+  },
+  "books": [
+    {
+      "$oid": "675419863b2acb41d4c4957d"
+    }
+  ],
+  "categoryName": "truyện tranh",
+  "createdAt": {
+    "$date": "2024-12-07T09:44:47.575Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:46:46.275Z"
+  },
+  "__v": 0
+}]

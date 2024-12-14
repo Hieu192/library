@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "6754194a3b2acb41d4c4957a"
+  },
+  "alternateTitle": "chill guy 2",
+  "language": "vietnamese",
+  "publisher": "nhi đồng",
+  "bookStatus": "Available",
+  "categories": [
+    {
+      "$oid": "675418fa3b2acb41d4c4956b"
+    }
+  ],
+  "transactions": [],
+  "bookName": "chill guy",
+  "author": "hieu",
+  "bookCountAvailable": 10,
+  "createdAt": {
+    "$date": "2024-12-07T09:45:46.924Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:45:46.924Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "675419863b2acb41d4c4957d"
+  },
+  "alternateTitle": "conan 1",
+  "language": "english",
+  "publisher": "NXB quốc gia",
+  "bookStatus": "Available",
+  "categories": [
+    {
+      "$oid": "6754190f3b2acb41d4c4956f"
+    }
+  ],
+  "transactions": [
+    {
+      "$oid": "67541a603b2acb41d4c4958d"
+    }
+  ],
+  "bookName": "conan",
+  "author": "phuc",
+  "bookCountAvailable": 4,
+  "createdAt": {
+    "$date": "2024-12-07T09:46:46.274Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:50:24.945Z"
+  },
+  "__v": 0
+}]

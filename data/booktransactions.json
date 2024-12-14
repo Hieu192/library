@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "67541a603b2acb41d4c4958d"
+  },
+  "transactionStatus": "Active",
+  "bookId": "675419863b2acb41d4c4957d",
+  "borrowerId": "675417a03b2acb41d4c4955f",
+  "bookName": "conan",
+  "borrowerName": "Phạm Quang Hiếu",
+  "transactionType": "Issued",
+  "fromDate": "12/07/2024",
+  "toDate": "12/09/2024",
+  "createdAt": {
+    "$date": "2024-12-07T09:50:24.909Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-07T09:50:24.909Z"
+  },
+  "__v": 0
+}]
