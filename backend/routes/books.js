@@ -1,6 +1,8 @@
 import express from "express"
 import Book from "../models/Book.js"
 import BookCategory from "../models/BookCategory.js"
+import cloudinary from "cloudinary";
+
 
 const router = express.Router()
 
@@ -42,6 +44,17 @@ router.get("/", async (req, res) => {
 router.post("/addbook", async (req, res) => {
     if (req.body.isAdmin) {
         try {
+            let imagesLink=[];
+            const image = req.body.image;
+            const result = await cloudinary.v2.uploader.upload(image, {
+                folder: "products",
+            });
+            console.log(result)
+            imagesLink.push({
+                public_id: result.public_id,
+                url: result.secure_url,
+            });
+            console.log(imagesLink)
             const newbook = await new Book({
                 bookName: req.body.bookName,
                 alternateTitle: req.body.alternateTitle,
@@ -50,8 +63,10 @@ router.post("/addbook", async (req, res) => {
                 language: req.body.language,
                 publisher: req.body.publisher,
                 bookStatus: req.body.bookSatus,
-                categories: req.body.categories
+                categories: req.body.categories,
+                image: imagesLink
             })
+            console.log(newbook)
             const book = await newbook.save()
             await BookCategory.updateMany({ '_id': book.categories }, { $push: { books: book._id } });
             res.status(200).json(book)
@@ -99,5 +114,24 @@ router.delete("/removebook/:id", async (req, res) => {
         return res.status(403).json("You dont have permission to delete a book!");
     }
 })
+
+// get sachs moi them gan day
+router.get('/api/books/recent', async (req, res) => {
+    try {
+        // Tính thời gian 60 ngày trước
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 60);
+    
+        // Lọc sách dựa trên `createAt`
+        const recentBooks = await Book.find({ createAt: { $gte: sevenDaysAgo } })
+          .sort({ createAt: -1 }) // Sắp xếp giảm dần theo ngày tạo
+          .limit(10); // Lấy tối đa 10 sách gần đây
+    
+        res.status(200).json({ success: true, data: recentBooks });
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+      }
+});
 
 export default router

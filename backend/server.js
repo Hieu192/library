@@ -7,11 +7,18 @@ import userRoutes from "./routes/users.js";
 import bookRoutes from "./routes/books.js";
 import transactionRoutes from "./routes/transactions.js";
 import categoryRoutes from "./routes/categories.js";
+import cloudinary from 'cloudinary'
 
 /* App Config */
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 /* Middlewares */
 app.use(express.json());
