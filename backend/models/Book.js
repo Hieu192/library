@@ -13,6 +13,11 @@ const BookSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    description: {
+        type: String,
+        require:true,
+        default: "",
+    },
     language:{
         type:String,
         default:""

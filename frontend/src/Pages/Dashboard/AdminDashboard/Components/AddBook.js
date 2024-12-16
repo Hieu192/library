@@ -9,6 +9,7 @@ function AddBook() {
     const [bookName, setBookName] = useState("")
     const [alternateTitle, setAlternateTitle] = useState("")
     const [author, setAuthor] = useState("")
+    const [description, setDescription] = useState("")
     const [bookCountAvailable, setBookCountAvailable] = useState(null)
     const [language, setLanguage] = useState("")
     const [publisher, setPublisher] = useState("")
@@ -43,6 +44,7 @@ function AddBook() {
             bookName: bookName,
             alternateTitle: alternateTitle,
             author: author,
+            description: description,
             bookCountAvailable: bookCountAvailable,
             language: language,
             publisher: publisher,
@@ -63,6 +65,8 @@ function AddBook() {
             setLanguage("")
             setPublisher("")
             setSelectedCategories([])
+            setImage("")
+            setDescription("")
             alert("Book Added Successfully 🎉")
         }
         catch (err) {
@@ -95,6 +99,9 @@ function AddBook() {
 
                 <label className="addbook-form-label" htmlFor="author">Tên Tác Giả <span className="required-field">*</span></label><br />
                 <input className="addbook-form-input" type="text" name="author" value={author} onChange={(e) => { setAuthor(e.target.value) }} required></input><br />
+
+                <label className="addbook-form-label" htmlFor="author">Mô tả <span className="required-field">*</span></label><br />
+                <textarea  className="addbook-form-input" type="text" name="author" value={description} onChange={(e) => { setDescription(e.target.value) }} required rows="5"></textarea><br />
 
                 <label className="addbook-form-label" htmlFor="language">Ngôn Ngữ </label><br />
                 <input className="addbook-form-input" type="text" name="language" value={language} onChange={(e) => { setLanguage(e.target.value) }}></input><br />
