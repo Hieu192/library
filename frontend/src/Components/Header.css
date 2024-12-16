@@ -25,9 +25,8 @@
 }
 
 .search-input{
-    flex-grow: 1;
     margin-left: 15px;
-    max-width: 1800px;
+    width: 400px;
     height: 40px;
     outline: none;
     padding: 10px 15px;

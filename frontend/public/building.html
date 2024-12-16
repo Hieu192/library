@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Sample Map</title>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #back {
+            position: absolute;
+            bottom: 20px;
+        }
+
+        #back i {
+            background-image: url(app/public/img/back.svg);
+            background-repeat: no-repeat;
+            display: inline-block;
+            width: 100px;
+            height: 25px;
+            padding-left: 25px;
+            padding-top: 2px;
+            margin: 10px;
+            cursor: pointer;
+            background-size: 20px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.16/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.16/"></script>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/SceneView",
+            "esri/layers/GeoJSONLayer",
+            "esri/Graphic",
+            "esri/views/MapView",
+            "esri/layers/GraphicsLayer",
+            "esri/geometry/Mesh",
+            "esri/symbols/MeshSymbol3D",
+            "esri/symbols/FillSymbol3DLayer"
+        ], function(Map, SceneView, GeoJSONLayer, Graphic, MapView, GraphicsLayer, Mesh, MeshSymbol3D, FillSymbol3DLayer) {
+
+            var list_points = [];
+            var string_points = "";
+            function addGeoJSONLayer(map,url, color, textureUrl = null) {
+                const geojsonLayer = new GeoJSONLayer({
+                    url: url
+                });
+
+                // Set a renderer for the layer
+                const symbolLayerConfig = {
+                    type: "extrude",
+                    material: {
+                        color: color
+                    }
+                };
+
+                // Only add the texture if textureUrl is provided
+                if (textureUrl) {
+                    symbolLayerConfig.material.texture = {
+                        url: textureUrl
+                    };
+                }
+
+                geojsonLayer.renderer = {
+                    type: "simple",
+                    symbol: {
+                        type: "polygon-3d",
+                        symbolLayers: [symbolLayerConfig]
+                    },
+                    visualVariables: [
+                        {
+                            type: "size",
+                            field: "height",
+                            valueUnit: "meters"
+                        }
+                    ]
+                };
+
+                // Add the layer to the map
+                map.add(geojsonLayer);
+            }
+            function copyTextToClipboard(text) {
+                if (!navigator.clipboard) {
+                    console.warn("Clipboard API not available");
+                    return;
+                }
+                navigator.clipboard.writeText(text).then(function() {
+                    console.log('Async: Copying to clipboard was successful!');
+                }, function(err) {
+                    console.error('Async: Could not copy text: ', err);
+                });
+            }
+            // Khởi tạo lớp GeoJSON
+            const building = new GeoJSONLayer({
+                url: "./building.geojson"
+            });
+            const floor = new GeoJSONLayer({
+                url: "./floor.geojson"
+            });
+            const railing1 = new GeoJSONLayer({
+                url: "./railing1.geojson"
+            });
+            const railing2 = new GeoJSONLayer({
+                url: "./railing2.geojson"
+            });
+            const railing3 = new GeoJSONLayer({
+                url: "./railing3.geojson"
+            });
+            const railing4 = new GeoJSONLayer({
+                url: "./railing4.geojson"
+            });
+            const pillar = new GeoJSONLayer({
+                url: "./pillar.geojson"
+            });
+            const bacthem = new GeoJSONLayer({
+                url: "./bac-them.geojson"
+            });
+            const railing_bacthem = new GeoJSONLayer({
+                url: "./railing-bacthem.geojson"
+            });
+            building.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 120,
+                        material: {
+                            color: "#a1bee3"
+                        }
+                      
+                    }]
+                }
+            };
+            floor.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 2,
+                        material: {
+                            color: "#f2ebc4"
+                        }
+                    }]
+                }
+            };
+            railing1.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 10,
+                        material: {
+                            color: "#bcd7d8"
+                        }
+                    }]
+                }
+            };
+            railing2.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 10,
+                        material: {
+                            color: "#bcd7d8"
+                        }
+                    }]
+                }
+            };
+            railing3.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 10,
+                        material: {
+                            color: "#bcd7d8"
+                        }
+                    }]
+                }
+            };
+            railing4.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 10,
+                        material: {
+                            color: "#bcd7d8"
+                        }
+                    }]
+                }
+            };
+            pillar.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 80,
+                        material: {
+                            color: "#c1c1c1"
+                        }
+                    }]
+                }
+            };
+            bacthem.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 2,
+                        material: {
+                            color: "#f2ebc4"
+                        }
+                    }]
+                }
+            };
+            railing_bacthem.renderer = {
+                type: "simple",
+                symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [{
+                        type: "extrude",
+                        size: 10,
+                        material: {
+                            color: "#bcd7d8"
+                        }
+                    }]
+                }
+            };
+       
+    
+            
+        
+            // Khởi tạo bản đồ
+            const map = new Map({
+                basemap: "topo-vector",
+                ground: "world-elevation",
+                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem]
+            });
+            // Khởi tạo SceneView và MapView trên cùng một `viewDiv`
+            const view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                center: [106.79619226956008, 10.869039384386499],
+                zoom: 19,
+                popup: { defaultPopupTemplateEnabled: true }
+            });
+
+            addGeoJSONLayer(map,"./ladder.geojson", [153, 217, 234, 0.8]);
+            addGeoJSONLayer(map,"./roof.geojson", "#c1c1c1");
+
+            // const graphicsLayer = new GraphicsLayer();
+            // map.add(graphicsLayer);
+            // Sự kiện click để lấy tọa độ và sao chép vào clipboard
+            view.on("click", function(event) {
+                view.hitTest(event).then(function(hitTestResults) {
+                    if (hitTestResults.results) {
+                        list_points.push([event.mapPoint.longitude, event.mapPoint.latitude]);
+                        string_points += "[" + event.mapPoint.longitude + ", " + event.mapPoint.latitude + "],";
+                        copyTextToClipboard(string_points);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
