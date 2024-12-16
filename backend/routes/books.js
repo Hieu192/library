@@ -118,7 +118,7 @@ router.delete("/removebook/:id", async (req, res) => {
 })
 
 // get sachs moi them gan day
-router.get('/api/books/recent', async (req, res) => {
+router.get('/recent', async (req, res) => {
     try {
         // Tính thời gian 60 ngày trước
         const sevenDaysAgo = new Date();
@@ -135,5 +135,41 @@ router.get('/api/books/recent', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
       }
 });
+
+// Sach pho bien
+// router.get('/popular', async (req, res) => {
+//     try {
+//         const popularBooks = await Book.find()
+//           .sort({ borrowedCount: -1 }) // Sắp xếp giảm dần theo số lần mượn
+//           .limit(10); // Lấy tối đa 10 sách phổ biến
+    
+//         res.status(200).json({ success: true, data: popularBooks });
+//       } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ success: false, message: 'Server error' });
+//       }
+//     }
+// )
+
+// search sach
+router.get('/search', async (req, res) => {
+    try {
+        const { query } = req.query; // Lấy từ khóa tìm kiếm từ request
+        console.log("query:::",query)
+        // Tìm sách dựa trên tên sách hoặc tên tác giả
+        const books = await Book.find({
+            $or: [
+                { bookName: { $regex: query, $options: 'i' } }, // Tìm kiếm theo tên sách
+                { author: { $regex: query, $options: 'i' } }    // Tìm kiếm theo tên tác giả
+            ]
+        });
+        // Trả về danh sách sách tìm được
+        res.status(200).json(books);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình tìm kiếm' });
+    }}
+)
+
 
 export default router
