@@ -13,7 +13,7 @@ import WelcomeBox from '../Components/WelcomeBox'
 
 function Home() {
     return (
-        <div id='home'>
+        <div id='home' style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
             <ImageSlider/>
             <WelcomeBox/>
             <About/>
@@ -21,8 +21,6 @@ function Home() {
             <RecentAddedBooks/>
             <PopularBooks/>
             <ReservedBooks/>
-            <News/>
-            <PhotoGallery/>
             <Footer/>
         </div>
     )

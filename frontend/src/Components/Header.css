@@ -8,14 +8,14 @@
     width: 100%;
     position: fixed;
     z-index: 100;
-    background-color: rgb(16,25,13);
+    background-color: rgb(255, 255, 255);
     box-shadow: 0 1px 4px rgba(146,161,176,.15);
     top: 0%;
 }
 
 .logo-nav a{
     font-size: 20px;
-    color: rgb(233,83,75);
+    color: rgb(38, 125, 255);
     font-weight: 800;
 }
 
@@ -32,11 +32,11 @@
     padding: 10px 15px;
     font-size: 18px;
     border-radius: 10px;
-    border: 1px solid white;
+    border: 1px solid rgb(129, 129, 129);
 }
 
 .nav-options{
-    padding-left: 25px;
+    padding-right: 50px;
     display: flex;
     list-style-type: none;
     margin-bottom: 15px!important;
@@ -57,18 +57,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0px 40px;
+    padding: 0px 20px;
     margin-top: 15px;
-    color: rgb(243, 6, 6);
+    color: rgb(0, 0, 0);
     white-space: nowrap;
 }
 
 .option a{
-    color: rgb(233,83,75);
+    color: rgb(0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 18px;
 }
 

@@ -1,7 +1,12 @@
 .popularbooks-container{
-    background-color: rgb(247,235,215);
+    background-color: rgb(250, 250, 250);
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 0px 10px #bebebe;
+    width:90%;
+    margin:50px 0px;
+    padding:0 20px
+    
 }
 
 .popularbooks{
