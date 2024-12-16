@@ -7,8 +7,7 @@ import moment from "moment"
 
 function GetMember() {
 
-    const API_URL = process.env.REACT_APP_API_URL
-
+    const API_URL =" process.env.REACT_APP_API_URL"
     const [allMembersOptions, setAllMembersOptions] = useState(null)
     const [memberId, setMemberId] = useState(null)
     const [memberDetails, setMemberDetails] = useState(null)

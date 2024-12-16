@@ -1,7 +1,7 @@
 .books-page{
-    height: 100vh;
     width: 100vw;
-    background-color: wheat;
+    background-color: rgb(250, 250, 250);
+    min-height:100vh
 }
 
 .books{
@@ -10,7 +10,7 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     padding: 15px;
-    max-width: 1024px;
+
 }
 
 .book-card{
@@ -18,15 +18,14 @@
     flex-direction: column;
     box-sizing: content-box;
     height: auto;
-    width: 250px;
+    width: 200px;
     align-items: center;
     padding: 25px;
     margin: 10px;
     -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-    border-radius: 15px;
     position: relative;
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(255, 255, 255);
 }
 
 .book-card img{

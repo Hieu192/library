@@ -38,6 +38,11 @@ function Header() {
                         </Link>
                     </li>
                     <li className="option" onClick={() => { closeMenu() }}>
+                        <Link to='/model'>
+                        <a href="#models">Mô hình</a>
+                        </Link>
+                    </li>
+                    <li className="option" onClick={() => { closeMenu() }}>
                         <Link to='/signin'>
                         <a href='signin'>Đăng nhập </a>
                         </Link>

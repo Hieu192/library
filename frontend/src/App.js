@@ -3,16 +3,15 @@ import Signin from './Pages/Signin'
 import { BrowserRouter as Router, Switch, Redirect, Route } from "react-router-dom";
 import MemberDashboard from './Pages/Dashboard/MemberDashboard/MemberDashboard.js';
 import Allbooks from './Pages/Allbooks';
+import Model from './Pages/Model';
 import Header from './Components/Header';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard/AdminDashboard.js';
 import { useContext } from "react"
 import { AuthContext } from "./Context/AuthContext.js"
-import MapComponent from './Components/MapComponent.js';
+
 
 function App() {
-
   const { user } = useContext(AuthContext)
-
   return (
     <Router>
       <Header />
@@ -33,8 +32,8 @@ function App() {
           <Route exact path='/books'>
             <Allbooks />
           </Route>
-          <Route exact path='/Map'>
-            <MapComponent />
+          <Route exact path='/model'>
+            <Model />
           </Route>
         </Switch>
       </div>

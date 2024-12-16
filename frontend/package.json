@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@arcgis/core": "^4.31.6",
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.4",
@@ -19,7 +18,7 @@
     "react-dom": "^17.0.2",
     "react-multi-select-component": "^4.0.3",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "semantic-ui-react": "^2.0.3",
     "web-vitals": "^1.0.1"
   },
@@ -35,6 +34,9 @@
       "react-app/jest"
     ]
   },
+  "browser": {
+    "process": false
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -46,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-error-overlay": "^6.0.9"
   }
 }
