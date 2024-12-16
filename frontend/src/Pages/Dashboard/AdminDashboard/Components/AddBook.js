@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react'
 
 function AddBook() {
 
-    const API_URL = process.env.REACT_APP_API_URL
+    const API_URL =" process.env.REACT_APP_API_URL"
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
 
@@ -39,7 +39,6 @@ function AddBook() {
         }
         getAllCategories()
     }, [API_URL])
-
     /* Adding book function */
     const addBook = async (e) => {
         e.preventDefault()

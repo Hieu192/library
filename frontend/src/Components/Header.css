@@ -9,7 +9,7 @@
     position: fixed;
     z-index: 100;
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 1px 4px rgba(146,161,176,.15);
+    box-shadow: 0 0px 10px rgba(199, 199, 199);
     top: 0%;
 }
 
