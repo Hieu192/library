@@ -7,6 +7,13 @@ import userRoutes from "./routes/users.js";
 import bookRoutes from "./routes/books.js";
 import transactionRoutes from "./routes/transactions.js";
 import categoryRoutes from "./routes/categories.js";
+import nodeRoutes from "./routes/node.js";
+import faceRoutes from "./routes/Face.js";
+import faceNodeRoutes from "./routes/FaceNode.js";
+import constructionRoutes from "./routes/Construction.js";
+import floorRoutes from "./routes/Floor.js";
+import simpleStructureRoutes from "./routes/SimpleStructure.js";
+
 import cloudinary from 'cloudinary'
 
 /* App Config */
@@ -30,6 +37,12 @@ app.use("/api/users", userRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/nodes", nodeRoutes);
+app.use("/api/faces", faceRoutes);
+app.use("/api/faceNodes", faceNodeRoutes);
+app.use("/api/constructions", constructionRoutes);
+app.use("/api/floors", floorRoutes);
+app.use("/api/simpleStructures", simpleStructureRoutes);
 
 /* MongoDB connection */
 mongoose.connect(
