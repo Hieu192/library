@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../AdminDashboard.css"
-import axios from "axios"
 import { AuthContext } from '../../../../Context/AuthContext'
 import { Dropdown } from 'semantic-ui-react'
-
+import axios from "../../../../service/axios"
 function AddBook() {
-
-    const API_URL =" process.env.REACT_APP_API_URL"
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
-
     const [bookName, setBookName] = useState("")
     const [alternateTitle, setAlternateTitle] = useState("")
     const [author, setAuthor] = useState("")
@@ -28,7 +24,7 @@ function AddBook() {
     useEffect(() => {
         const getAllCategories = async () => {
             try {
-                const response = await axios.get(API_URL + "api/categories/allcategories")
+                const response = await axios.get("categories/allcategories")
                 const all_categories = await response.data.map(category => (
                     { value: `${category._id}`, text: `${category.categoryName}` }
                 ))
@@ -39,7 +35,7 @@ function AddBook() {
             }
         }
         getAllCategories()
-    }, [API_URL])
+    }, [])
     /* Adding book function */
     const addBook = async (e) => {
         e.preventDefault()
@@ -57,7 +53,7 @@ function AddBook() {
             image: image
         }
         try {
-            const response = await axios.post(API_URL + "api/books/addbook", BookData)
+            const response = await axios.post( "books/addbook", BookData)
             if (recentAddedBooks.length >= 5) {
                 recentAddedBooks.splice(-1)
             }
@@ -82,11 +78,11 @@ function AddBook() {
 
     useEffect(() => {
         const getallBooks = async () => {
-            const response = await axios.get(API_URL + "api/books/allbooks")
+            const response = await axios.get("/books/allbooks")
             setRecentAddedBooks(response.data.slice(0, 5))
         }
         getallBooks()
-    }, [API_URL])
+    }, [])
 
 
     return (

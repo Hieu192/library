@@ -12,14 +12,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { IconButton } from "@material-ui/core";
 import { AuthContext } from "../../../Context/AuthContext";
-import axios from "axios";
+import axios from "../../../service/axios"
 import moment from "moment";
 
 function MemberDashboard() {
   const [active, setActive] = useState("profile");
   const [sidebar, setSidebar] = useState(false);
-
-  const API_URL ="";
   const { user } = useContext(AuthContext);
   const [memberDetails, setMemberDetails] = useState(null);
 
@@ -27,7 +25,7 @@ function MemberDashboard() {
     const getMemberDetails = async () => {
       try {
         const response = await axios.get(
-          API_URL + "api/users/getuser/" + user._id
+           "/users/getuser/" + user._id
         );
         setMemberDetails(response.data);
       } catch (err) {
@@ -35,7 +33,7 @@ function MemberDashboard() {
       }
     };
     getMemberDetails();
-  }, [API_URL, user]);
+  }, [ user]);
 
   const logout = () => {
     localStorage.removeItem("user");

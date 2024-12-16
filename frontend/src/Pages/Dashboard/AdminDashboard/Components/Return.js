@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import "../AdminDashboard.css"
-import axios from "axios"
+import axios from "../../../../service/axios"
 import { Dropdown } from 'semantic-ui-react'
 import '../../MemberDashboard/MemberDashboard.css'
 import moment from "moment"
@@ -9,7 +9,7 @@ import { AuthContext } from '../../../../Context/AuthContext'
 
 function Return() {
 
-    const API_URL =" process.env.REACT_APP_API_URL"
+
     const { user } = useContext(AuthContext)
 
     const [allTransactions, setAllTransactions] = useState([])
@@ -23,7 +23,7 @@ function Return() {
     useEffect(() => {
         const getMembers = async () => {
             try {
-                const response = await axios.get(API_URL + "api/users/allmembers")
+                const response = await axios.get("/users/allmembers")
                 setAllMembersOptions(response.data.map((member) => (
                     { value: `${member?._id}`, text: `${member?.userType === "Student" ? `${member?.userFullName}[${member?.admissionId}]` : `${member?.userFullName}[${member?.employeeId}]`}` }
                 )))
@@ -33,14 +33,14 @@ function Return() {
             }
         }
         getMembers()
-    }, [API_URL])
+    }, [])
 
 
     /* Getting all active transactions */
     useEffect(()=>{
         const getAllTransactions = async () =>{
             try{
-                const response = await axios.get(API_URL+"api/transactions/all-transactions")
+                const response = await axios.get("/transactions/all-transactions")
                 setAllTransactions(response.data.sort((a, b) => Date.parse(a.toDate) - Date.parse(b.toDate)).filter((data) => {
                     return data.transactionStatus === "Active"
                 }))
@@ -52,44 +52,44 @@ function Return() {
             }
         }
         getAllTransactions()
-    },[API_URL,ExecutionStatus])
+    },[ExecutionStatus])
 
 
     const returnBook = async (transactionId,borrowerId,bookId,due) =>{
         try{
             /* Setting return date and transactionStatus to completed */
-            await axios.put(API_URL+"api/transactions/update-transaction/"+transactionId,{
+            await axios.put("/transactions/update-transaction/"+transactionId,{
                 isAdmin:user.isAdmin,
                 transactionStatus:"Completed",
                 returnDate:moment(new Date()).format("MM/DD/YYYY")
             })
 
             /* Getting borrower points alreadt existed */
-            const borrowerdata = await axios.get(API_URL+"api/users/getuser/"+borrowerId)
+            const borrowerdata = await axios.get("/users/getuser/"+borrowerId)
             const points = borrowerdata.data.points
 
             /* If the number of days after dueDate is greater than zero then decreasing points by 10 else increase by 10*/
             if(due > 0){
-                await axios.put(API_URL+"api/users/updateuser/"+borrowerId,{
+                await axios.put("/users/updateuser/"+borrowerId,{
                     points:points-10,
                     isAdmin: user.isAdmin
                 })
             }
             else if(due<=0){
-                await axios.put(API_URL+"api/users/updateuser/"+borrowerId,{
+                await axios.put("/users/updateuser/"+borrowerId,{
                     points:points+10,
                     isAdmin: user.isAdmin
                 })
             }
 
-            const book_details = await axios.get(API_URL+"api/books/getbook/"+bookId)
-            await axios.put(API_URL+"api/books/updatebook/"+bookId,{
+            const book_details = await axios.get("/books/getbook/"+bookId)
+            await axios.put("/books/updatebook/"+bookId,{
                 isAdmin:user.isAdmin,
                 bookCountAvailable:book_details.data.bookCountAvailable + 1
             })
 
             /* Pulling out the transaction id from user active Transactions and pushing to Prev Transactions */
-            await axios.put(API_URL + `api/users/${transactionId}/move-to-prevtransactions`, {
+            await axios.put(+ `/users/${transactionId}/move-to-prevtransactions`, {
                 userId: borrowerId,
                 isAdmin: user.isAdmin
             })
@@ -104,7 +104,7 @@ function Return() {
 
     const convertToIssue = async (transactionId) => {
         try{
-            await axios.put(API_URL+"api/transactions/update-transaction/"+transactionId,{
+            await axios.put("/transactions/update-transaction/"+transactionId,{
                 transactionType:"Issued",
                 isAdmin:user.isAdmin
             })

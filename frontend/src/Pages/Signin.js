@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import './Signin.css'
-import axios from 'axios'
+import axios from "../service/axios"
 import { AuthContext } from '../Context/AuthContext.js'
 import Switch from '@material-ui/core/Switch';
 
@@ -16,7 +16,7 @@ function Signin() {
     const loginCall = async (userCredential, dispatch) => {
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post("/api/auth/signin", userCredential);
+            const res = await axios.post("/auth/signin", userCredential);
             dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         }
         catch (err) {
@@ -27,7 +27,7 @@ function Signin() {
 
     const handleForm = (e) => {
         e.preventDefault()
-        isStudent
+        !isStudent
         ? loginCall({ admissionId, password }, dispatch)
         : loginCall({ employeeId,password }, dispatch)
     }
@@ -39,7 +39,7 @@ function Signin() {
                     <h2 className="signin-title"> Log in</h2>
                     <p className="line"></p>
                     <div className="persontype-question">
-                        <p>Bạn có phải là nhân viên không ?</p>
+                        <p>Bạn có phải là quản trị viên không ?</p>
                         <Switch
                             onChange={() => setIsStudent(!isStudent)}
                             color="primary"
@@ -47,8 +47,8 @@ function Signin() {
                     </div>
                     <div className="error-message"><p>{error}</p></div>
                     <div className="signin-fields">
-                        <label htmlFor={isStudent?"admissionId":"employeeId"}> <b>{isStudent?"ID Quản trị ":"ID Nhân viên "}</b></label>
-                        <input className='signin-textbox' type="text" placeholder={isStudent?"Nhập tài khoản quản trị":"Nhập tài khoản Nhân viên"} name={isStudent?"admissionId":"employeeId"} required onChange={(e) => { isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
+                        <label htmlFor={!isStudent?"admissionId":"employeeId"}> <b>{isStudent?"ID Thành viên ":"ID Quản trị viên "}</b></label>
+                        <input className='signin-textbox' type="text" placeholder={isStudent?"Nhập tài khoản thành viên ":"Nhập tài khoản quản trị viên"} name={isStudent?"employeeId":"admissionId"} required onChange={(e) => { !isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
                         <label htmlFor="password"><b>Mật khẩu </b></label>
                         <input className='signin-textbox' type="password" minLength='6' placeholder="Nhập mật khẩu " name="psw" required onChange={(e) => { setPassword(e.target.value) }} />
                         </div>
