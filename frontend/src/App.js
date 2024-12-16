@@ -8,6 +8,7 @@ import Header from './Components/Header';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard/AdminDashboard.js';
 import { useContext } from "react"
 import { AuthContext } from "./Context/AuthContext.js"
+import MapComponent from './Components/MapComponent.js';
 
 function App() {
 

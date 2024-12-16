@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcGIS Map</title>
+    <!-- ArcGIS CSS -->
+    <link
+        rel="stylesheet"
+        href="https://js.arcgis.com/4.26/esri/themes/light/main.css"
+    />
+    <style>
+        /* Fullscreen map container */
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Div for the ArcGIS map -->
+    <div id="viewDiv"></div>
+
+    <!-- ArcGIS JavaScript API -->
+    <script src="https://js.arcgis.com/4.26/"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView"
+        ], function (Map, MapView) {
+            // Create the map
+            const map = new Map({
+                basemap: "topo-vector" // Topographic vector basemap
+            });
+
+            // Create the MapView
+            const view = new MapView({
+                container: "viewDiv", // Reference to the map container div
+                map: map, // Reference to the map object
+                center: [106.7962, 10.8690], // Longitude, Latitude
+                zoom: 15 // Initial zoom level
+            });
+        });
+    </script>
+</body>
+</html>

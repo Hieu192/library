@@ -18,6 +18,8 @@ function AddBook() {
     const [publisher, setPublisher] = useState("")
     const [allCategories, setAllCategories] = useState([])
     const [selectedCategories, setSelectedCategories] = useState([])
+    const [image, setImage] = useState([])
+    const [imagePreview, setImagePreview] = useState(["https://via.placeholder.com/150"]);
     const [recentAddedBooks, setRecentAddedBooks] = useState([])
 
 
@@ -50,7 +52,8 @@ function AddBook() {
             language: language,
             publisher: publisher,
             categories: selectedCategories,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            image: image
         }
         try {
             const response = await axios.post(API_URL + "api/books/addbook", BookData)
@@ -120,7 +123,64 @@ function AddBook() {
                         onChange={(event, value) => setSelectedCategories(value.value)}
                     />
                 </div>
+                <label className="addbook-form-label" htmlFor="categories">Thể loại <span className="required-field"></span></label><br />
 
+                <input className="addbook-form-input" type="file" name="image" id="customFile" 
+                    onChange={(e) => { 
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                            if (reader.readyState === 2) {
+                                const img = new Image();
+                                img.onload = () => {
+                                    const canvas = document.createElement('canvas');
+                                    const ctx = canvas.getContext('2d');
+
+                                    // Tăng độ phân giải của canvas
+                                    const targetWidth = 100;
+                                    const targetHeight = 150;
+                                    const resolutionMultiplier = 2; // Tăng chất lượng gấp đôi
+
+                                    canvas.width = targetWidth * resolutionMultiplier;
+                                    canvas.height = targetHeight * resolutionMultiplier;
+
+                                    // Vẽ ảnh lên canvas với kích thước lớn hơn
+                                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                                    // Giảm xuống kích thước hiển thị mong muốn
+                                    const resizedImage = canvas.toDataURL("image/jpeg", 1.0);
+                                    setImagePreview(resizedImage);
+                                    setImage(resizedImage);
+                                }
+                                img.src = reader.result;
+                            }
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    }}
+                    ></input><br />
+                    <img
+                        src={imagePreview}
+                        key={imagePreview}
+                        alt="Images Preview"
+                        className="mt-3 mr-2"
+                        width="55"
+                        height="52"
+                    />
+                {/* <div className="custom-file">
+                    <input
+                        type="file"
+                        name="product_images"
+                        className="custom-file-input"
+                        id="customFile"
+                        onChange={onChange}
+                        multiple
+                    />
+                    <label
+                        className="custom-file-label"
+                        htmlFor="customFile"
+                    >
+                        Chọn ảnh
+                    </label>
+                </div> */}
                 <input className="addbook-submit" type="submit" value="THÊM SÁCH " disabled={isLoading}></input>
             </form>
             <div>
