@@ -35,12 +35,11 @@ app.use("/api/categories", categoryRoutes);
 mongoose.connect(
   process.env.MONGO_URL,
   {
-    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
   () => {
-    console.log("MONGODB CONNECTED");
+    console.log("MONGODB CONNECTED thành công");
   }
 );
 
