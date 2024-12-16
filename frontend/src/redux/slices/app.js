@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-//import axios from "../../utils/axios";
-// import S3 from "../../utils/s3";
+import axios from "../../service/axios"
+
 import { v4 } from "uuid";
 // ----------------------------------------------------------------------
 const initialState = {
   user: {},
-  users: [], // all users of app who are not friends and not requested yet
-  room_id: null,
   isLoading: false,
+  books:[]
 };
 
 const slice = createSlice({
@@ -16,6 +15,9 @@ const slice = createSlice({
   reducers: {
     fetchUser(state, action) {
       state.user = action.payload.user;
+    },
+    fetchBooks(state, action) {
+      state.books = action.payload.books;
     },
     updateUser(state, action) {
       state.user = action.payload.user;
@@ -43,30 +45,20 @@ export const {
 
 
 
-// export function FetchUsers() {
-//   console.log("vai");
-//   return async (dispatch, getState) => {
-//     console.log("token là :", getState().auth.token);
-//     await axios
-//       .get(
-//         "/user/get-users",
-
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${getState().auth.token}`,
-//           },
-//         }
-//       )
-//       .then((response) => {
-//         console.log("Thông tin user là :", response.data);
-//         dispatch(slice.actions.updateUsers({ users: response.data.data }));
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-// }
+export function FetchBooks() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/books/allbooks"
+      )
+      .then((response) => {
+        dispatch(slice.actions.fetchBooks({ books: response.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
 
 
 
