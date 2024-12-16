@@ -44,6 +44,7 @@ router.get("/", async (req, res) => {
 router.post("/addbook", async (req, res) => {
     if (req.body.isAdmin) {
         try {
+            console.log("test :::", req.body)
             let imagesLink=[];
             const image = req.body.image;
             const result = await cloudinary.v2.uploader.upload(image, {
@@ -59,6 +60,7 @@ router.post("/addbook", async (req, res) => {
                 bookName: req.body.bookName,
                 alternateTitle: req.body.alternateTitle,
                 author: req.body.author,
+                description : req.body.description,
                 bookCountAvailable: req.body.bookCountAvailable,
                 language: req.body.language,
                 publisher: req.body.publisher,
@@ -76,7 +78,7 @@ router.post("/addbook", async (req, res) => {
         }
     }
     else {
-        return res.status(403).json("You dont have permission to delete a book!");
+        return res.status(403).json("You dont have permission to add a book!");
     }
 })
 
