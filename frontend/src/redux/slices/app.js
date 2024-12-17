@@ -6,7 +6,8 @@ import { v4 } from "uuid";
 const initialState = {
   user: {},
   isLoading: false,
-  books:[]
+  books:[],
+  searchBooks:""
 };
 
 const slice = createSlice({
@@ -25,8 +26,8 @@ const slice = createSlice({
     updateLoading(state, action) {
       state.isLoading = action.payload;
     },
-    updateUsers(state, action) {
-      state.users = action.payload.users;
+    updateSearchBooks(state, action) {
+      state.searchBooks = action.payload;
     },
 
  
@@ -39,7 +40,7 @@ export const {
   fetchUser,
   updateUser,
   updateLoading,
-  updateUsers,
+  updateSearchBooks
 } = slice.actions;
 // ----------------------------------------------------------------------
 

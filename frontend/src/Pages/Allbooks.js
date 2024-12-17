@@ -4,7 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { FetchBooks } from "../redux/slices/app";
 function Allbooks() {
   const dispatch = useDispatch();
-  const { books } = useSelector((state) => state.app);
+  const { books, searchBooks } = useSelector((state) => state.app);
+  const filterBooks = searchBooks
+    ? books.filter((book) => {
+        return book.bookName.toLowerCase().includes(searchBooks.toLowerCase());
+      })
+    : books;
   useEffect(() => {
     dispatch(FetchBooks());
   }, []);
@@ -12,7 +17,7 @@ function Allbooks() {
   return (
     <div className="books-page">
       <div className="books">
-        {books.map((book) => {
+        {filterBooks.map((book) => {
           return (
             <div key={book._id} className="book-card">
               <img src={book.image[0].url} alt=""></img>
