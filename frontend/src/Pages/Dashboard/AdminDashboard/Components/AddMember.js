@@ -5,7 +5,7 @@ import { Dropdown } from 'semantic-ui-react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
-
+import { toast } from 'react-toastify';
 function AddMember() {
     const [isLoading, setIsLoading] = useState(false)
 
@@ -25,13 +25,13 @@ function AddMember() {
 
 
     const genderTypes = [
-        { value: "Male", text: "Male" },
-        { value: "Female", text: "Female" }
+        { value: "Nam", text: "Nam" },
+        { value: "Nữ", text: "Nữ" }
     ]
 
     const userTypes = [
-        { value: 'Staff', text: 'Staff' },
-        { value: 'Student', text: 'Student' }
+        { value: 'Nhân viên', text: 'Nhân viên' },
+        { value: 'Học sinh', text: 'Học sinh' }
     ]
 
     //Add a Member
@@ -54,6 +54,7 @@ function AddMember() {
             }
             try {
                 const response = await axios.post("/auth/register", userData)
+                toast.success("Thêm thành viên thành công!");
                 if (recentAddedMembers.length >= 5) {
                     recentAddedMembers.splice(-1)
                 }
@@ -144,8 +145,10 @@ function AddMember() {
                     dateFormat="MM/dd/yyyy"
                 />
 
-                <label className="addmember-form-label" htmlFor="address">Địa chỉ <span className="required-field">*</span></label><br />
-                <input className="addmember-form-input address-field" value={address} type="text" required onChange={(e) => setAddress(e.target.value)}></input><br />
+                <div>
+                    <label className="addmember-form-label" htmlFor="address">Địa chỉ <span className="required-field">*</span></label><br />
+                    <input className="addmember-form-input address-field" value={address} type="text" required onChange={(e) => setAddress(e.target.value)}></input><br />
+                </div>
 
                 <label className="addmember-form-label" htmlFor="email">Email<span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="email" value={email} required onChange={(e) => setEmail(e.target.value)}></input><br />
@@ -153,7 +156,7 @@ function AddMember() {
                 <label className="addmember-form-label" htmlFor="password">Mật Khẩu <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input><br />
 
-                <input className="addmember-submit" type="submit" value="SUBMIT" disabled={isLoading} ></input>
+                <input className="addmember-submit" type="submit" value="THÊM" disabled={isLoading} style={{marginTop:"10px"}} ></input>
 
             </form>
             <p className="dashboard-option-title">Thêm Thành Viên </p>

@@ -5,7 +5,7 @@ import { Dropdown } from 'semantic-ui-react'
 import '../../MemberDashboard/MemberDashboard.css'
 import moment from "moment"
 import { AuthContext } from '../../../../Context/AuthContext'
-
+import { toast } from 'react-toastify';
 
 function Return() {
 
@@ -25,7 +25,7 @@ function Return() {
             try {
                 const response = await axios.get("/users/allmembers")
                 setAllMembersOptions(response.data.map((member) => (
-                    { value: `${member?._id}`, text: `${member?.userType === "Student" ? `${member?.userFullName}[${member?.admissionId}]` : `${member?.userFullName}[${member?.employeeId}]`}` }
+                    { value: `${member?._id}`, text: `${member?.userType === "Student" ? `${member?.userFullName}` : `${member?.userFullName}`}` }
                 )))
             }
             catch (err) {
@@ -56,6 +56,7 @@ function Return() {
 
 
     const returnBook = async (transactionId,borrowerId,bookId,due) =>{
+        toast.success("Trả sách thành công!");
         try{
             /* Setting return date and transactionStatus to completed */
             await axios.put("/transactions/update-transaction/"+transactionId,{

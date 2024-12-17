@@ -17,7 +17,7 @@ import GetMember from './Components/GetMember';
 import AssignmentReturnIcon from '@material-ui/icons/AssignmentReturn';
 import Return from './Components/Return';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-
+import { ToastContainer } from 'react-toastify';
 
 /* Semantic UI Dropdown Styles Import */
 const styleLink = document.createElement("link");
@@ -39,6 +39,7 @@ function AdminDashboard() {
 
     return (
         <div className="dashboard">
+            <ToastContainer/>
             <div className="dashboard-card">
                 <div className="sidebar-toggler" onClick={() => setSidebar(!sidebar)}>
                     <IconButton>
@@ -52,7 +53,7 @@ function AdminDashboard() {
                         <LibraryBooksIcon style={{ fontSize: 50 }} />
                         <p className="logo-name">UIT-ĐHQG</p>
                     </div>
-                    <p className={`dashboard-option ${active === "profile" ? "clicked" : ""}`} onClick={() => { setActive("profile"); setSidebar(false) }}><AccountCircleIcon className='dashboard-option-icon' /> Thông Tin </p>
+                    {/* <p className={`dashboard-option ${active === "profile" ? "clicked" : ""}`} onClick={() => { setActive("profile"); setSidebar(false) }}><AccountCircleIcon className='dashboard-option-icon' /> Thông Tin </p> */}
                     <p className={`dashboard-option ${active === "addbook" ? "clicked" : ""}`} onClick={() => { setActive("addbook"); setSidebar(false) }}><BookIcon className='dashboard-option-icon' />Thêm sách </p>
                     <p className={`dashboard-option ${active === "addtransaction" ? "clicked" : ""}`} onClick={() => { setActive("addtransaction"); setSidebar(false) }}><ReceiptIcon className='dashboard-option-icon' /> Thêm giao dịch  </p>
                     <p className={`dashboard-option ${active === "getmember" ? "clicked" : ""}`} onClick={() => { setActive("getmember"); setSidebar(false) }}><AccountBoxIcon className='dashboard-option-icon' /> Tìm thành viên </p>

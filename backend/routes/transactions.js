@@ -1,7 +1,7 @@
 import express from "express"
 import Book from "../models/Book.js"
 import BookTransaction from "../models/BookTransaction.js"
-
+import User from "../models/User.js";
 const router = express.Router()
 
 router.post("/add-transaction", async (req, res) => {
@@ -17,6 +17,7 @@ router.post("/add-transaction", async (req, res) => {
                 toDate: req.body.toDate
             })
             const transaction = await newtransaction.save()
+            await User.updateOne({_id:req.body.userId}, { $inc: {  points: 10 } })
             const book = Book.findById(req.body.bookId)
             await book.updateOne({ $push: { transactions: transaction._id } })
             res.status(200).json(transaction)
@@ -59,7 +60,6 @@ router.delete("/remove-transaction/:id", async (req, res) => {
         try {
             const data = await BookTransaction.findByIdAndDelete(req.params.id);
             const book = Book.findById(data.bookId)
-            console.log(book)
             await book.updateOne({ $pull: { transactions: req.params.id } })
             res.status(200).json("Transaction deleted successfully");
         } catch (err) {
