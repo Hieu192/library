@@ -6,7 +6,7 @@ import { Dropdown } from 'semantic-ui-react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment"
-
+import { toast } from 'react-toastify';
 function AddTransaction() {
     const [isLoading, setIsLoading] = useState(false)
     const { user } = useContext(AuthContext)
@@ -25,8 +25,9 @@ function AddTransaction() {
     const [toDateString, setToDateString] = useState(null)
 
     const transactionTypes = [
-        { value: 'Reserved', text: 'Reserve' },
-        { value: 'Issued', text: 'Issue' }
+        { value: 'Issued', text: 'Mượn sách' },
+        { value: 'Reserved', text: 'Đặt trước' }
+      
     ]
 
     const [transactionType, setTransactionType] = useState("")
@@ -49,7 +50,8 @@ function AddTransaction() {
                     transactionType: transactionType,
                     fromDate: fromDateString,
                     toDate: toDateString,
-                    isAdmin: user.isAdmin
+                    isAdmin: user.isAdmin,
+                    userId:borrowerId
                 }
                 try {
                     const response = await axios.post("/transactions/add-transaction", transactionData)
@@ -74,18 +76,18 @@ function AddTransaction() {
                     setToDate(null)
                     setFromDateString(null)
                     setToDateString(null)
-                    alert("Transaction was Successfull 🎉")
+                    toast.success("Đã tạo giao dịch thành công!");
                 }
                 catch (err) {
                     console.log(err)
                 }
             }
             else{
-                alert("The book is not available")
+                toast.error("Sách ko có sẵn!");
             }
         }
         else {
-            alert("Fields must not be empty")
+            toast.error("Các trường không được để trống!");
         }
         setIsLoading(false)
     }
@@ -129,8 +131,9 @@ function AddTransaction() {
         const getMembers = async () => {
             try {
                 const response = await axios.get("/users/allmembers")
+                console.log(response.data)
                 const all_members = await response.data.map(member => (
-                    { value: `${member?._id}`, text: `${member?.userType === "Student" ? `${member?.userFullName}[${member?.admissionId}]` : `${member?.userFullName}[${member?.employeeId}]`}` }
+                    { value: `${member?._id}`, text: `${member?.userType === "Student" ? `${member?.userFullName}` : `${member?.userFullName}`}` }
                 ))
                 setAllMembers(all_members)
             }
@@ -174,10 +177,10 @@ function AddTransaction() {
                 </div>
                 <table className="admindashboard-table shortinfo-table" style={borrowerId === "" ? { display: "none" } : {}}>
                     <tr>
-                        <th>Name</th>
-                        <th>Issued</th>
-                        <th>Reserved</th>
-                        <th>Points</th>
+                        <th>Họ và tên</th>
+                        <th>Đã mượn</th>
+                        <th>Đặt trước</th>
+                        <th>Điểm</th>
                     </tr>
                     <tr>
                         <td>{borrowerDetails.userFullName}</td>
@@ -196,11 +199,11 @@ function AddTransaction() {
                 </table>
                 <table className="admindashboard-table shortinfo-table" style={borrowerId === "" ? { display: "none" } : {}}>
                     <tr>
-                        <th>Book-Name</th>
-                        <th>Transaction</th>
-                        <th>From Date<br /><span style={{ fontSize: "10px" }}>[MM/DD/YYYY]</span></th>
-                        <th>To Date<br /><span style={{ fontSize: "10px" }}>[MM/DD/YYYY]</span></th>
-                        <th>Fine</th>
+                        <th>Tên sách</th>
+                        <th>Giao dịch</th>
+                        <th>Từ ngày<br /></th>
+                        <th>Đến ngày<br /></th>
+                        <th>Tiền phạt</th>
                     </tr>
                     {
                         borrowerDetails.activeTransactions?.filter((data) => { return data.transactionStatus === "Active" }).map((data, index) => {
@@ -229,12 +232,12 @@ function AddTransaction() {
                         onChange={(event, data) => setBookId(data.value)}
                     />
                 </div>
-                <table className="admindashboard-table shortinfo-table" style={bookId === "" ? { display: "none" } : {}}>
+                {/* <table className="admindashboard-table shortinfo-table" style={bookId === "" ? { display: "none" } : {}}>
                     <tr>
                         <th>Available Coipes</th>
                         <th>Reserved</th>
                     </tr>
-                </table>
+                </table> */}
 
                 <label className="transaction-form-label" htmlFor="transactionType">Hình Thức Mượn Sách <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
@@ -249,27 +252,27 @@ function AddTransaction() {
                 </div>
                 <br />
 
-                <label className="transaction-form-label" htmlFor="from-date">Từ Ngày <span className="required-field">*</span></label><br />
-                <DatePicker
-                    className="date-picker"
-                    placeholderText="MM/DD/YYYY"
-                    selected={fromDate}
-                    onChange={(date) => { setFromDate(date); setFromDateString(moment(date).format("MM/DD/YYYY")) }}
-                    minDate={new Date()}
-                    dateFormat="MM/dd/yyyy"
-                />
-
-                <label className="transaction-form-label" htmlFor="to-date">Đến Ngày <span className="required-field">*</span></label><br />
-                <DatePicker
-                    className="date-picker"
-                    placeholderText="MM/DD/YYYY"
-                    selected={toDate}
-                    onChange={(date) => { setToDate(date); setToDateString(moment(date).format("MM/DD/YYYY")) }}
-                    minDate={new Date()}
-                    dateFormat="MM/dd/yyyy"
-                />
-
-                <input className="transaction-form-submit" type="submit" value="TẠO GIAO DỊCH " disabled={isLoading}></input>
+                <div style={{display:"flex",flexDirection:"row",justifyContent:"center",alignItems:"center",gap:"10px"}}>
+                    <label className="transaction-form-label" htmlFor="from-date">Từ Ngày <span className="required-field">*</span></label><br />
+                    <DatePicker
+                        className="date-picker"
+                        placeholderText="MM/DD/YYYY"
+                        selected={fromDate}
+                        onChange={(date) => { setFromDate(date); setFromDateString(moment(date).format("MM/DD/YYYY")) }}
+                        minDate={new Date()}
+                        dateFormat="MM/dd/yyyy"
+                    />
+                    <label className="transaction-form-label" htmlFor="to-date">Đến Ngày <span className="required-field">*</span></label><br />
+                    <DatePicker
+                        className="date-picker"
+                        placeholderText="MM/DD/YYYY"
+                        selected={toDate}
+                        onChange={(date) => { setToDate(date); setToDateString(moment(date).format("MM/DD/YYYY")) }}
+                        minDate={new Date()}
+                        dateFormat="MM/dd/yyyy"
+                    />
+                    <input className="transaction-form-submit" type="submit" value="TẠO GIAO DỊCH " disabled={isLoading}></input>
+                </div>
             </form>
             <p className="dashboard-option-title">Lịch Sử Mượn Sách </p>
             <div className="dashboard-title-line"></div>

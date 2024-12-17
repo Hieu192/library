@@ -8,7 +8,8 @@ import RecentAddedBooks from '../Components/RecentAddedBooks'
 import ReservedBooks from '../Components/ReservedBooks'
 import Stats from '../Components/Stats'
 import WelcomeBox from '../Components/WelcomeBox'
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Home() {
     return (
         <div id='home' style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>
@@ -20,6 +21,7 @@ function Home() {
             <PopularBooks/>
             <ReservedBooks/>
             <Footer/>
+            <ToastContainer/>
         </div>
     )
 }

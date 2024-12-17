@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const NodeSchema = new mongoose.Schema({
-    nodeId: {
-        type: String,
-        require: true,
-        unique: true
-    },
+    // nodeId: {
+    //     type: String,
+    //     require: true,
+    //     unique: true
+    // },
     x: {
         type: Number,
         require: true,

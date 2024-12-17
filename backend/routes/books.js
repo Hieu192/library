@@ -9,7 +9,7 @@ const router = express.Router()
 /* Get all books in the db */
 router.get("/allbooks", async (req, res) => {
     try {
-        const books = await Book.find({}).populate("transactions").sort({ _id: -1 })
+        const books = await Book.find({}).populate("transactions").populate("categories").sort({ _id: -1 })
         res.status(200).json(books)
     }
     catch (err) {

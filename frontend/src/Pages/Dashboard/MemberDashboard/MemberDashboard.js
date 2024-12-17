@@ -12,7 +12,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import { IconButton } from "@material-ui/core";
 import { AuthContext } from "../../../Context/AuthContext";
-import axios from "../../../service/axios"
+import axios from "../../../service/axios";
 import moment from "moment";
 
 function MemberDashboard() {
@@ -24,16 +24,14 @@ function MemberDashboard() {
   useEffect(() => {
     const getMemberDetails = async () => {
       try {
-        const response = await axios.get(
-           "/users/getuser/" + user._id
-        );
+        const response = await axios.get("/users/getuser/" + user._id);
         setMemberDetails(response.data);
       } catch (err) {
         console.log("Error in fetching the member details");
       }
     };
     getMemberDetails();
-  }, [ user]);
+  }, [user]);
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -59,7 +57,7 @@ function MemberDashboard() {
         >
           <div className="dashboard-logo">
             <LibraryBooksIcon style={{ fontSize: 50 }} />
-            <p className="logo-name">LCMS</p>
+            <p className="logo-name">UIT-ĐHQG</p>
           </div>
           <a
             href="#profile@member"
@@ -83,7 +81,7 @@ function MemberDashboard() {
               setSidebar(false);
             }}
           >
-            <LocalLibraryIcon className="dashboard-option-icon" /> Active
+            <LocalLibraryIcon className="dashboard-option-icon" /> Đã đặt
           </a>
           <a
             href="#reservedbook@member"
@@ -95,7 +93,7 @@ function MemberDashboard() {
               setSidebar(false);
             }}
           >
-            <BookIcon className="dashboard-option-icon" /> Reserved
+            <BookIcon className="dashboard-option-icon" /> Đặt trước
           </a>
           <a
             href="#history@member"
@@ -107,7 +105,7 @@ function MemberDashboard() {
               setSidebar(false);
             }}
           >
-            <HistoryIcon className="dashboard-option-icon" /> History
+            <HistoryIcon className="dashboard-option-icon" /> Lịch sử 
           </a>
           <a
             href="#profile@member"
@@ -119,7 +117,7 @@ function MemberDashboard() {
               setSidebar(false);
             }}
           >
-            <PowerSettingsNewIcon className="dashboard-option-icon" /> Log out{" "}
+            <PowerSettingsNewIcon className="dashboard-option-icon" /> Đăng xuất{" "}
           </a>
         </div>
 
@@ -147,7 +145,7 @@ function MemberDashboard() {
                 <div className="specific-left-top">
                   <p className="specific-left-topic">
                     <span style={{ fontSize: "18px" }}>
-                      <b>Age</b>
+                      <b>Tuổi</b>
                     </span>
                     <span style={{ fontSize: "16px" }}>
                       {memberDetails?.age}
@@ -155,7 +153,7 @@ function MemberDashboard() {
                   </p>
                   <p className="specific-left-topic">
                     <span style={{ fontSize: "18px" }}>
-                      <b>Gender</b>
+                      <b>Giới tính</b>
                     </span>
                     <span style={{ fontSize: "16px" }}>
                       {memberDetails?.gender}
@@ -165,7 +163,7 @@ function MemberDashboard() {
                 <div className="specific-left-bottom">
                   <p className="specific-left-topic">
                     <span style={{ fontSize: "18px" }}>
-                      <b>DOB</b>
+                      <b>Ngày sinh</b>
                     </span>
                     <span style={{ fontSize: "16px" }}>
                       {memberDetails?.dob}
@@ -173,7 +171,7 @@ function MemberDashboard() {
                   </p>
                   <p className="specific-left-topic">
                     <span style={{ fontSize: "18px" }}>
-                      <b>Address</b>
+                      <b>Địa chỉ</b>
                     </span>
                     <span style={{ fontSize: "16px" }}>
                       {memberDetails?.address}
@@ -184,7 +182,7 @@ function MemberDashboard() {
               <div className="specific-right">
                 <div className="specific-right-top">
                   <p className="specific-right-topic">
-                    <b>Points</b>
+                    <b>Điểm</b>
                   </p>
                   <p
                     style={{
@@ -196,40 +194,24 @@ function MemberDashboard() {
                       marginTop: "15px",
                     }}
                   >
-                    540
+                      {memberDetails?.points}
                   </p>
                 </div>
                 <div className="dashboard-title-line"></div>
-                <div className="specific-right-bottom">
-                  <p className="specific-right-topic">
-                    <b>Rank</b>
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "25px",
-                      fontWeight: "500",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginTop: "15px",
-                    }}
-                  >
-                    {memberDetails?.points}
-                  </p>
-                </div>
+              
               </div>
             </div>
           </div>
 
           <div className="member-activebooks-content" id="activebooks@member">
-            <p className="member-dashboard-heading">Issued</p>
+            <p className="member-dashboard-heading">Đã mượn</p>
             <table className="activebooks-table">
               <tr>
-                <th>S.No</th>
-                <th>Book-Name</th>
-                <th>From Date</th>
-                <th>To Date</th>
-                <th>Fine</th>
+                <th>Thứ tự</th>
+                <th>Tên sách</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Tiền phạt</th>
               </tr>
               {memberDetails?.activeTransactions
                 ?.filter((data) => {
@@ -267,13 +249,13 @@ function MemberDashboard() {
             className="member-reservedbooks-content"
             id="reservedbooks@member"
           >
-            <p className="member-dashboard-heading">Reserved</p>
+            <p className="member-dashboard-heading">Đặt trước</p>
             <table className="activebooks-table">
               <tr>
-                <th>S.No</th>
-                <th>Book-Name</th>
-                <th>From</th>
-                <th>To</th>
+                <th>Thứ tự</th>
+                <th>Tên sách</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
               </tr>
               {memberDetails?.activeTransactions
                 ?.filter((data) => {
@@ -292,14 +274,14 @@ function MemberDashboard() {
             </table>
           </div>
           <div className="member-history-content" id="history@member">
-            <p className="member-dashboard-heading">History</p>
+            <p className="member-dashboard-heading">Lịch sử</p>
             <table className="activebooks-table">
               <tr>
-                <th>S.No</th>
-                <th>Book-Name</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Return Date</th>
+                <th>Thứ tự</th>
+                <th>Tên sách</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Ngày trả</th>
               </tr>
               {memberDetails?.prevTransactions?.map((data, index) => {
                 return (

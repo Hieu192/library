@@ -5,10 +5,14 @@ const FaceNode = new mongoose.Schema({
         type: mongoose.Types.ObjectId, 
         ref: "Face" 
     },
-    nodeId: { 
+    // nodeId: { 
+    //     type: mongoose.Types.ObjectId, 
+    //     ref: "Node" 
+    // },
+    nodeId: [{ 
         type: mongoose.Types.ObjectId, 
         ref: "Node" 
-    },
+    }],
 });
 
 export default mongoose.model("FaceNode", FaceNode);

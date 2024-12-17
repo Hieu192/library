@@ -1,59 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Allbooks.css";
-
+import { useSelector, useDispatch } from "react-redux";
+import { FetchBooks } from "../redux/slices/app";
 function Allbooks() {
-  
+  const dispatch = useDispatch();
+  const { books, searchBooks } = useSelector((state) => state.app);
+  const filterBooks = searchBooks
+    ? books.filter((book) => {
+        return book.bookName.toLowerCase().includes(searchBooks.toLowerCase());
+      })
+    : books;
+  useEffect(() => {
+    dispatch(FetchBooks());
+  }, []);
+
   return (
     <div className="books-page">
       <div className="books">
-        <div className="book-card">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp16xiXu1ZtTzbLy-eSwEK4Ng6cUpUZnuGbQ&usqp=CAU"
-            alt=""
-          ></img>
-          <p className="bookcard-title">Wings Of Fire</p>
-          <p className="bookcard-author">By Pranavdhar</p>
-          <div className="bookcard-category">
-            <p>Auto Biography</p>
-          </div>
-          <div className="bookcard-emptybox"></div>
-        </div>
-        <div className="book-card">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-Rb2t6jA5ml7n57qdTZbAOWX1qSfsLCbaOA&usqp=CAU"
-            alt=""
-          ></img>
-          <p className="bookcard-title">The Power Of Your Subconscious Mind</p>
-          <p className="bookcard-author">By Joseph</p>
-          <div className="bookcard-category">
-            <p>Psychology</p>
-          </div>
-          <div className="bookcard-emptybox"></div>
-        </div>
-        <div className="book-card">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRFiDRQ7a-Oo-CnMmnbIMApP1Cq9B5bYx-UA&usqp=CAU"
-            alt=""
-          ></img>
-          <p className="bookcard-title">Elon Musk</p>
-          <p className="bookcard-author">By Elon</p>
-          <div className="bookcard-category">
-            <p>Auto Biography</p>
-          </div>
-          <div className="bookcard-emptybox"></div>
-        </div>
-        <div className="book-card">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-Rb2t6jA5ml7n57qdTZbAOWX1qSfsLCbaOA&usqp=CAU"
-            alt=""
-          ></img>
-          <p className="bookcard-title">The Subtle Art Of Not Giving A Fuck</p>
-          <p className="bookcard-author">By Mark Manson</p>
-          <div className="bookcard-category">
-            <p>COMIC</p>
-          </div>
-          <div className="bookcard-emptybox"></div>
-        </div>
+        {filterBooks.map((book) => {
+          return (
+            <div key={book._id} className="book-card">
+              <img src={book.image[0].url} alt=""></img>
+              <p className="bookcard-title">{book.bookName}</p>
+              <p className="bookcard-author">{book.author}</p>
+              <div className="bookcard-category">
+                <p>{book.categories[0].categoryName}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

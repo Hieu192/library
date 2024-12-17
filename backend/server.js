@@ -40,7 +40,6 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors());
 
 
-
 /* API Routes */
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

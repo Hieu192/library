@@ -51,6 +51,24 @@
             "esri/symbols/FillSymbol3DLayer"
         ], function(Map, SceneView, GeoJSONLayer, Graphic, MapView, GraphicsLayer, Mesh, MeshSymbol3D, FillSymbol3DLayer) {
 
+            // Hàm lấy tham số từ query string
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+            const data = getQueryParam("data");
+            let parsedData = {};
+            if (data) {
+                try {
+                    parsedData = JSON.parse(decodeURIComponent(data));
+                    console.log("Data from query string:", parsedData);
+                } catch (e) {
+                    console.error("Failed to parse data:", e);
+                }
+            }
+
+            
+            ////////////////////////////////////////////////
             var list_points = [];
             var string_points = "";
             function addGeoJSONLayer(map,url, color, textureUrl = null) {
@@ -319,9 +337,6 @@
                     }]
                 }
             };
-    
-            
-        
             // Khởi tạo bản đồ
             const map = new Map({
                 basemap: "topo-vector",
