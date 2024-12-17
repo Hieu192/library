@@ -3,6 +3,7 @@ import Signin from './Pages/Signin'
 import { BrowserRouter as Router, Switch, Redirect, Route } from "react-router-dom";
 import MemberDashboard from './Pages/Dashboard/MemberDashboard/MemberDashboard.js';
 import Allbooks from './Pages/Allbooks';
+import BookDetail from './Pages/BookDetail';
 import Model from './Pages/Model';
 import Header from './Components/Header';
 import AdminDashboard from './Pages/Dashboard/AdminDashboard/AdminDashboard.js';
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route exact path='/books'>
             <Allbooks />
+          </Route>
+          <Route path='/books/:id'>
+            <BookDetail />
           </Route>
           <Route exact path='/model'>
             <Model />

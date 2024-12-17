@@ -20,7 +20,7 @@ router.get("/allbooks", async (req, res) => {
 /* Get Book by book Id */
 router.get("/getbook/:id", async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id).populate("transactions")
+        const book = await Book.findById(req.params.id).populate("transactions").populate("categories")
         res.status(200).json(book)
     }
     catch {

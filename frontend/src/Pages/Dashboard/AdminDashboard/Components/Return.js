@@ -44,7 +44,7 @@ function Return() {
                 setAllTransactions(response.data.sort((a, b) => Date.parse(a.toDate) - Date.parse(b.toDate)).filter((data) => {
                     return data.transactionStatus === "Active"
                 }))
-                console.log("Okay")
+                console.log(response.data)
                 setExecutionStatus(null)
             }
             catch(err){
@@ -90,13 +90,12 @@ function Return() {
             })
 
             /* Pulling out the transaction id from user active Transactions and pushing to Prev Transactions */
-            await axios.put(+ `/users/${transactionId}/move-to-prevtransactions`, {
+            await axios.put(`/users/${transactionId}/move-to-prevtransactions`, {
                 userId: borrowerId,
                 isAdmin: user.isAdmin
             })
 
             setExecutionStatus("Completed");
-            alert("Book returned to the library successfully")
         }
         catch(err){
             console.log(err)

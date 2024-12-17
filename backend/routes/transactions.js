@@ -17,7 +17,7 @@ router.post("/add-transaction", async (req, res) => {
                 toDate: req.body.toDate
             })
             const transaction = await newtransaction.save()
-            await User.updateOne({_id:req.body.userId}, { $inc: {  points: 10 } })
+            //await User.updateOne({_id:req.body.userId}, { $inc: {  points: 10 } })
             const book = Book.findById(req.body.bookId)
             await book.updateOne({ $push: { transactions: transaction._id } })
             res.status(200).json(transaction)
