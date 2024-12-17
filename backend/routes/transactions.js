@@ -18,7 +18,7 @@ router.post("/add-transaction", async (req, res) => {
             })
             const transaction = await newtransaction.save()
             const book = Book.findById(req.body.bookId)
-            await book.updateOne({ $push: { transactions: transaction._id } })
+            await book.updateOne({ $push: { transactions: transaction._id }, $inc: { borrowedCount: 1 } })
             res.status(200).json(transaction)
         }
         else if (req.body.isAdmin === false) {
