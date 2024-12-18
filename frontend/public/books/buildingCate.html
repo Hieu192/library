@@ -1,438 +1,506 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
     <title>Sample Map Cate</title>
 
     <style>
-        html,
-        body,
-        #buildingCate {
-            padding: 0;
-            margin: 0;
-            height: 100%;
-            width: 100%;
-        }
-        #back {
-            position: absolute;
-            bottom: 20px;
-        }
+      html,
+      body,
+      #buildingCate {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #back {
+        position: absolute;
+        bottom: 20px;
+      }
 
-        #back i {
-            background-image: url(app/public/img/back.svg);
-            background-repeat: no-repeat;
-            display: inline-block;
-            width: 100px;
-            height: 25px;
-            padding-left: 25px;
-            padding-top: 2px;
-            margin: 10px;
-            cursor: pointer;
-            background-size: 20px;
-        }
+      #back i {
+        background-image: url(app/public/img/back.svg);
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 100px;
+        height: 25px;
+        padding-left: 25px;
+        padding-top: 2px;
+        margin: 10px;
+        cursor: pointer;
+        background-size: 20px;
+      }
     </style>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/4.16/esri/themes/light/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.16/esri/themes/light/main.css"
+    />
     <script src="https://js.arcgis.com/4.16/"></script>
 
     <script>
-        require([
-            "esri/Map",
-            "esri/views/SceneView",
-            "esri/layers/GeoJSONLayer",
-            "esri/Graphic",
-            "esri/views/MapView",
-            "esri/layers/GraphicsLayer",
-            "esri/geometry/Mesh",
-            "esri/symbols/MeshSymbol3D",
-            "esri/symbols/FillSymbol3DLayer"
-        ], function(Map, SceneView, GeoJSONLayer, Graphic, MapView, GraphicsLayer, Mesh, MeshSymbol3D, FillSymbol3DLayer) {
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/GeoJSONLayer",
+        "esri/Graphic",
+        "esri/views/MapView",
+        "esri/layers/GraphicsLayer",
+        "esri/geometry/Mesh",
+        "esri/symbols/MeshSymbol3D",
+        "esri/symbols/FillSymbol3DLayer",
+      ], function (
+        Map,
+        SceneView,
+        GeoJSONLayer,
+        Graphic,
+        MapView,
+        GraphicsLayer,
+        Mesh,
+        MeshSymbol3D,
+        FillSymbol3DLayer
+      ) {
+        // Hàm lấy tham số từ query string
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+        const data = getQueryParam("data");
+        let parsedData = {};
+        if (data) {
+          try {
+            parsedData = JSON.parse(decodeURIComponent(data));
+            console.log("Data from query string:", parsedData);
+          } catch (e) {
+            console.error("Failed to parse data:", e);
+          }
+        }
 
-            // Hàm lấy tham số từ query string
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
+        ////////////////////////////////////////////////
+        var list_points = [];
+        var string_points = "";
+        function addGeoJSONLayer(map, url, color, textureUrl = null) {
+          const geojsonLayer = new GeoJSONLayer({
+            url: url,
+          });
+
+          // Set a renderer for the layer
+          const symbolLayerConfig = {
+            type: "extrude",
+            material: {
+              color: color,
+            },
+          };
+
+          // Only add the texture if textureUrl is provided
+          if (textureUrl) {
+            symbolLayerConfig.material.texture = {
+              url: textureUrl,
+            };
+          }
+          geojsonLayer.renderer = {
+            type: "simple",
+            symbol: {
+              type: "polygon-3d",
+              symbolLayers: [symbolLayerConfig],
+            },
+            visualVariables: [
+              {
+                type: "size",
+                field: "height",
+                valueUnit: "meters",
+              },
+            ],
+          };
+
+          // Add the layer to the map
+          map.add(geojsonLayer);
+        }
+        function copyTextToClipboard(text) {
+          if (!navigator.clipboard) {
+            console.warn("Clipboard API not available");
+            return;
+          }
+          navigator.clipboard.writeText(text).then(
+            function () {
+              console.log("Async: Copying to clipboard was successful!");
+            },
+            function (err) {
+              console.error("Async: Could not copy text: ", err);
             }
-            const data = getQueryParam("data");
-            let parsedData = {};
-            if (data) {
-                try {
-                    parsedData = JSON.parse(decodeURIComponent(data));
-                    console.log("Data from query string:", parsedData);
-                } catch (e) {
-                    console.error("Failed to parse data:", e);
-                }
-            }
+          );
+        }
 
-            
-            ////////////////////////////////////////////////
-            var list_points = [];
-            var string_points = "";
-            function addGeoJSONLayer(map,url, color, textureUrl = null) {
-                const geojsonLayer = new GeoJSONLayer({
-                    url: url
-                });
+        // Khỏi tạo Biến màu trong suốt cho các lớp GeoJSON
+        const colorBuilding = [153, 217, 234, 0.2];
+        const colorFloor = [242, 235, 196, 0.2];
+        const railingFloor = [188, 215, 216, 0.2];
 
-                // Set a renderer for the layer
-                const symbolLayerConfig = {
-                    type: "extrude",
-                    material: {
-                        color: color
-                    }
-                };
-
-                // Only add the texture if textureUrl is provided
-                if (textureUrl) {
-                    symbolLayerConfig.material.texture = {
-                        url: textureUrl
-                    };
-                }
-                geojsonLayer.renderer = {
-                    type: "simple",
-                    symbol: {
-                        type: "polygon-3d",
-                        symbolLayers: [symbolLayerConfig]
-                    },
-                    visualVariables: [
-                        {
-                            type: "size",
-                            field: "height",
-                            valueUnit: "meters"
-                        }
-                    ]
-                };
-
-                // Add the layer to the map
-                map.add(geojsonLayer);
-            }
-            function copyTextToClipboard(text) {
-                if (!navigator.clipboard) {
-                    console.warn("Clipboard API not available");
-                    return;
-                }
-                navigator.clipboard.writeText(text).then(function() {
-                    console.log('Async: Copying to clipboard was successful!');
-                }, function(err) {
-                    console.error('Async: Could not copy text: ', err);
-                });
-            }
-
-            // Khỏi tạo Biến màu trong suốt cho các lớp GeoJSON
-            const colorBuilding = [153, 217, 234, 0.2];
-            const colorFloor = [242, 235, 196, 0.2]
-            const railingFloor = [188, 215, 216, 0.2]
-        
-            // Khởi tạo lớp GeoJSON
-            const building = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/building",
-            });
-            const floor = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/floor",
-                title: "Floor"
-            });
-            const railing1 = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing1",
-            });
-            const railing2 = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing2",
-            });
-            const railing3 = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing3",
-            });
-            const railing4 = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing4",
-            });
-            const pillar = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/pillar"
-            });
-            const bacthem = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/bacTham"
-            });
-            const railing_bacthem = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing-bacthem"
-            });
-            const libraran = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/libraran"
-            });
-            const room = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/room"
-            });
-            const shelf = new GeoJSONLayer({
-                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/shelf"
-            });
-            const shelfCate = new GeoJSONLayer({
-                url: `http://localhost:5000/api/simpleStructures/getShelfByCate?query=${parsedData.category}`,
-                popupTemplate: {
-                    title: "test", // Lấy trường `name` làm tiêu đề
-                    content: `
+        // Khởi tạo lớp GeoJSON
+        const building = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/building",
+        });
+        const floor = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/floor",
+          title: "Floor",
+        });
+        const railing1 = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing1",
+        });
+        const railing2 = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing2",
+        });
+        const railing3 = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing3",
+        });
+        const railing4 = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing4",
+        });
+        const pillar = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/pillar",
+        });
+        const bacthem = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/bacTham",
+        });
+        const railing_bacthem = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing-bacthem",
+        });
+        const libraran = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/libraran",
+        });
+        const room = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/room",
+        });
+        const shelf = new GeoJSONLayer({
+          url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/shelf",
+        });
+        const shelfCate = new GeoJSONLayer({
+          url: `http://localhost:5000/api/simpleStructures/getShelfByCate?query=${parsedData.category}`,
+          popupTemplate: {
+            title: "test", // Lấy trường `name` làm tiêu đề
+            content: `
                     <b>Tên:</b> {name} <br>
                     <b>Mô tả:</b> {description} <br>
-                    ` // Thêm các trường khác nếu cần
-                }
-            });
-            building.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 120,
-                        material: {
-                            color: colorBuilding
-                        }
-                      
-                    }]
-                }
-            };
-            floor.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 2,
-                        material: {
-                            color: [242, 235, 196]
-                        }
-                    }]
-                }
-            };
-            railing1.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 10,
-                        material: {
-                            color: [188, 215, 216]
-                        }
-                    }]
-                }
-            };
-            railing2.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 10,
-                        material: {
-                            color: [188, 215, 216]
-                        }
-                    }]
-                }
-            };
-            railing3.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 10,
-                        material: {
-                            color: [188, 215, 216]
-                        }
-                    }]
-                }
-            };
-            railing4.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 10,
-                        material: {
-                            color: [188, 215, 216]
-                        }
-                    }]
-                }
-            };
-            pillar.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 80,
-                        material: {
-                            color: [193, 193, 193]
-                        }
-                    }]
-                }
-            };
-            bacthem.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 2,
-                        material: {
-                            color: [242, 235, 196]
-                        }
-                    }]
-                }
-            };
-            railing_bacthem.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 10,
-                        material: {
-                            color: [188, 215, 216]
-                        }
-                    }]
-                }
-            };
-
-            libraran.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 5,
-                        material: {
-                            color: [121, 68, 59, 0.2]
-                        }
-                    }]
-                }
-            };
-            room.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 20,
-                        material: {
-                            color: [242, 235, 196, 0.2]
-                        }
-                    }]
-                }
-            };
-            // shelf.renderer = {
-            //     type: "simple",
-            //     symbol: {
-            //         type: "polygon-3d",
-            //         symbolLayers: [{
-            //             type: "extrude",
-            //             size: 12,
-            //             material: {
-            //                 color: [121, 68, 59, 0.2]
-            //             }
-            //         }]
-            //     }
-            // };
-            shelfCate.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 12,
-                        material: {
-                            color: [121, 68, 59]
-                        }
-                    }]
-                }
-            };
-            // Khởi tạo bản đồ
-            const map = new Map({
-                basemap: "topo-vector",
-                ground: "world-elevation",
-                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem, libraran, room, shelf, shelfCate]
-            });
-            // Khởi tạo SceneView và MapView trên cùng một `buildingCate`
-            const view = new SceneView({
-                container: "buildingCate",
-                map: map,
-                center: [106.79619226956008, 10.869039384386499],
-                zoom: 19,
-                camera: {
-                    position: {
-                        longitude: 106.79702296270642,
-                        latitude: 10.856986948155267,
-                        z: 400 // Độ cao (mét)
-                    },
-                    tilt: 85 , // Góc nghiêng
-                    heading: 0  // Hướng Bắc
-                },
-                popup: { defaultPopupTemplateEnabled: true }
-            });
-
-            // Hiển thị Popup mặc định khi GeoJSON Layer tải xong
-            shelfCate.when(() => {
-                // Giả sử phần tử đầu tiên trong GeoJSON được sử dụng
-                shelfCate.queryFeatures().then((result) => {
-                if (result.features.length > 0) {
-                    console.log("result:: ",result);
-                    const firstFeature = result.features[0];
-                    console.log("firstFeature:: ",firstFeature);
-                    const geometry = firstFeature.geometry;
-                    console.log("firstFeature.geometry:: ",geometry);
-                    // Zoom đến phần tử nếu cần
-                    if (firstFeature.geometry.extent) {
-                        // Sử dụng extent để mở rộng phạm vi hiển thị
-                        const bufferExtent = firstFeature.geometry.extent.expand(4.5 ); // Mở rộng 4.5 lần
-                        view.goTo({
-                            target: bufferExtent
-                        }).then(() => {
-                            addHighlightEffect(firstFeature);
-                        });;
-                    } else {
-                        view.goTo({
-                            target: firstFeature.geometry,
-                        }).then(() => {
-                            addHighlightEffect(firstFeature);
-                        });
-                    }
-                    view.popup.open({
-                        title: firstFeature.attributes.name,
-                        content: `
-                            <b>Tên:</b> ${firstFeature.attributes.name} <br>
-                        `,
-                        location: firstFeature.geometry.centroild
-                    });
-                }
-                });
-            });
-            function addHighlightEffect(feature) {
-                view.whenLayerView(shelfCate).then((layerView) => {
-                    if (highlight) {
-                        highlight.remove(); // Xóa highlight cũ nếu có
-                    }
-                    highlight = layerView.highlight(feature); // Tạo highlight mới
-                });
-            }
-
-            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/ladder", [153, 217, 234]);
-            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/roof", "#c1c1c1");
-
-            // const graphicsLayer = new GraphicsLayer();
-            // map.add(graphicsLayer);
-            // Sự kiện click để lấy tọa độ và sao chép vào clipboard
-            view.on("click", function(event) {
-                view.hitTest(event).then(function(hitTestResults) {
-                    if (hitTestResults.results) {
-                        list_points.push([event.mapPoint.longitude, event.mapPoint.latitude]);
-                        string_points += "[" + event.mapPoint.longitude + ", " + event.mapPoint.latitude + "],";
-                        copyTextToClipboard(string_points);
-                    }
-                });
-            });
+                    `, // Thêm các trường khác nếu cần
+          },
         });
+        building.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 120,
+                material: {
+                  color: colorBuilding,
+                },
+              },
+            ],
+          },
+        };
+        floor.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 2,
+                material: {
+                  color: [242, 235, 196],
+                },
+              },
+            ],
+          },
+        };
+        railing1.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: [188, 215, 216],
+                },
+              },
+            ],
+          },
+        };
+        railing2.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: [188, 215, 216],
+                },
+              },
+            ],
+          },
+        };
+        railing3.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: [188, 215, 216],
+                },
+              },
+            ],
+          },
+        };
+        railing4.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: [188, 215, 216],
+                },
+              },
+            ],
+          },
+        };
+        pillar.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 80,
+                material: {
+                  color: [193, 193, 193],
+                },
+              },
+            ],
+          },
+        };
+        bacthem.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 2,
+                material: {
+                  color: [242, 235, 196],
+                },
+              },
+            ],
+          },
+        };
+        railing_bacthem.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 10,
+                material: {
+                  color: [188, 215, 216],
+                },
+              },
+            ],
+          },
+        };
+
+        libraran.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 5,
+                material: {
+                  color: [121, 68, 59, 0.2],
+                },
+              },
+            ],
+          },
+        };
+        room.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 20,
+                material: {
+                  color: [242, 235, 196, 0.2],
+                },
+              },
+            ],
+          },
+        };
+        // shelf.renderer = {
+        //     type: "simple",
+        //     symbol: {
+        //         type: "polygon-3d",
+        //         symbolLayers: [{
+        //             type: "extrude",
+        //             size: 12,
+        //             material: {
+        //                 color: [121, 68, 59, 0.2]
+        //             }
+        //         }]
+        //     }
+        // };
+        shelfCate.renderer = {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                size: 12,
+                material: {
+                  color: [121, 68, 59],
+                },
+              },
+            ],
+          },
+        };
+        // Khởi tạo bản đồ
+        const map = new Map({
+          basemap: "topo-vector",
+          ground: "world-elevation",
+          layers: [
+            building,
+            floor,
+            railing1,
+            railing2,
+            railing3,
+            railing4,
+            pillar,
+            bacthem,
+            railing_bacthem,
+            libraran,
+            room,
+            shelf,
+            shelfCate,
+          ],
+        });
+        // Khởi tạo SceneView và MapView trên cùng một `buildingCate`
+        const view = new SceneView({
+          container: "buildingCate",
+          map: map,
+          center: [106.79619226956008, 10.869039384386499],
+          zoom: 19,
+          camera: {
+            position: {
+              longitude: 106.79702296270642,
+              latitude: 10.856986948155267,
+              z: 400, // Độ cao (mét)
+            },
+            tilt: 85, // Góc nghiêng
+            heading: 0, // Hướng Bắc
+          },
+          popup: { defaultPopupTemplateEnabled: true },
+        });
+        // Hàm highlight đối tượng mặc định
+        function highlightDefaultFeature(layer) {
+          view.whenLayerView(layer).then(function (layerView) {
+            // Truy vấn đối tượng đầu tiên của layer
+            layer.queryFeatures().then(function (results) {
+              if (results.features.length > 0) {
+                const feature = results.features[0];
+
+                // Highlight đối tượng
+                const highlightHandle = layerView.highlight(feature);
+
+                // Hiển thị popup
+                view.popup.open({
+                  title: "Thông tin Đối tượng",
+                  content: `
+                        <b>Tên:</b> ${
+                          feature.attributes.name || "Không có"
+                        } <br>
+                        <b>Mô tả:</b> ${
+                          feature.attributes.description || "Không có"
+                        } <br>
+                    `,
+                  location: feature.geometry.centroid,
+                  offset: {
+                    x: 0, // Dịch ngang (px)
+                    y: -100, // Dịch dọc lên trên (px)
+                  },
+                });
+
+                // Tùy chọn: Tắt highlight sau 10 giây
+                //setTimeout(() => {
+                // highlightHandle.remove();
+                // }, 10000);
+              } else {
+                console.warn("Không tìm thấy đối tượng nào.");
+              }
+            });
+          });
+        }
+
+        // Thêm sự kiện khi SceneView đã sẵn sàng
+        view.when(function () {
+          // Highlight đối tượng mặc định
+          highlightDefaultFeature(shelfCate);
+        });
+
+        addGeoJSONLayer(
+          map,
+          "http://localhost:5000/api/simpleStructures/getStructureByNameVip/ladder",
+          [153, 217, 234]
+        );
+        addGeoJSONLayer(
+          map,
+          "http://localhost:5000/api/simpleStructures/getStructureByNameVip/roof",
+          "#c1c1c1"
+        );
+
+        // const graphicsLayer = new GraphicsLayer();
+        // map.add(graphicsLayer);
+        // Sự kiện click để lấy tọa độ và sao chép vào clipboard
+        view.on("click", function (event) {
+          view.hitTest(event).then(function (hitTestResults) {
+            if (hitTestResults.results) {
+              list_points.push([
+                event.mapPoint.longitude,
+                event.mapPoint.latitude,
+              ]);
+              string_points +=
+                "[" +
+                event.mapPoint.longitude +
+                ", " +
+                event.mapPoint.latitude +
+                "],";
+              copyTextToClipboard(string_points);
+            }
+          });
+        });
+      });
     </script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="buildingCate"></div>
-</body>
-
+  </body>
 </html>
