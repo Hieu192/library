@@ -4,18 +4,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Sample Map</title>
+    <title>Sample Map Cate</title>
 
     <style>
         html,
         body,
-        #viewDiv {
+        #buildingCate {
             padding: 0;
             margin: 0;
             height: 100%;
             width: 100%;
         }
-
         #back {
             position: absolute;
             bottom: 20px;
@@ -90,7 +89,6 @@
                         url: textureUrl
                     };
                 }
-
                 geojsonLayer.renderer = {
                     type: "simple",
                     symbol: {
@@ -135,47 +133,44 @@
                 title: "Floor"
             });
             const railing1 = new GeoJSONLayer({
-                url: "./railing1.geojson",
-                title: "Railing1"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing1",
             });
             const railing2 = new GeoJSONLayer({
-                url: "./railing2.geojson",
-                title: "Railing2"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing2",
             });
             const railing3 = new GeoJSONLayer({
-                url: "./railing3.geojson",
-                title: "Railing3"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing3",
             });
             const railing4 = new GeoJSONLayer({
-                url: "./railing4.geojson",
-                title: "Railing4"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing4",
             });
             const pillar = new GeoJSONLayer({
-                url: "./pillar.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/pillar"
             });
             const bacthem = new GeoJSONLayer({
-                url: "./bac-them.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/bacTham"
             });
             const railing_bacthem = new GeoJSONLayer({
-                url: "./railing-bacthem.geojson"
-            });
-            const shelf1 = new GeoJSONLayer({
-                url: "./shelf1.geojson"
-            });
-            const shelf2 = new GeoJSONLayer({
-                url: "./shelf2.geojson"
-            });
-            const shelf3 = new GeoJSONLayer({
-                url: "./shelf3.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/railing-bacthem"
             });
             const libraran = new GeoJSONLayer({
-                url: "./libraran.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/libraran"
             });
             const room = new GeoJSONLayer({
-                url: "./room.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/room"
             });
             const shelf = new GeoJSONLayer({
-                url: "./shelf.geojson"
+                url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/shelf"
+            });
+            const shelfCate = new GeoJSONLayer({
+                url: `http://localhost:5000/api/simpleStructures/getShelfByCate?query=${parsedData.category}`,
+                popupTemplate: {
+                    title: "test", // Lấy trường `name` làm tiêu đề
+                    content: `
+                    <b>Tên:</b> {name} <br>
+                    <b>Mô tả:</b> {description} <br>
+                    ` // Thêm các trường khác nếu cần
+                }
             });
             building.renderer = {
                 type: "simple",
@@ -199,7 +194,7 @@
                         type: "extrude",
                         size: 2,
                         material: {
-                            color: "#f2ebc4"
+                            color: [242, 235, 196]
                         }
                     }]
                 }
@@ -212,7 +207,7 @@
                         type: "extrude",
                         size: 10,
                         material: {
-                            color: "#bcd7d8"
+                            color: [188, 215, 216]
                         }
                     }]
                 }
@@ -225,7 +220,7 @@
                         type: "extrude",
                         size: 10,
                         material: {
-                            color: "#bcd7d8"
+                            color: [188, 215, 216]
                         }
                     }]
                 }
@@ -238,7 +233,7 @@
                         type: "extrude",
                         size: 10,
                         material: {
-                            color: "#bcd7d8"
+                            color: [188, 215, 216]
                         }
                     }]
                 }
@@ -251,7 +246,7 @@
                         type: "extrude",
                         size: 10,
                         material: {
-                            color: "#bcd7d8"
+                            color: [188, 215, 216]
                         }
                     }]
                 }
@@ -264,7 +259,7 @@
                         type: "extrude",
                         size: 80,
                         material: {
-                            color: "#c1c1c1"
+                            color: [193, 193, 193]
                         }
                     }]
                 }
@@ -277,7 +272,7 @@
                         type: "extrude",
                         size: 2,
                         material: {
-                            color: "#f2ebc4"
+                            color: [242, 235, 196]
                         }
                     }]
                 }
@@ -290,51 +285,12 @@
                         type: "extrude",
                         size: 10,
                         material: {
-                            color: "#bcd7d8"
-                        }
-                    }]
-                }
-            };
-            shelf1.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 15,
-                        material: {
-                            color: [121, 68, 59]
+                            color: [188, 215, 216]
                         }
                     }]
                 }
             };
 
-            shelf2.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 15,
-                        material: {
-                            color: [121, 68, 59]
-                        }
-                    }]
-                }
-            };
-            shelf3.renderer = {
-                type: "simple",
-                symbol: {
-                    type: "polygon-3d",
-                    symbolLayers: [{
-                        type: "extrude",
-                        size: 15,
-                        material: {
-                            color: [121, 68, 59]
-                        }
-                    }]
-                }
-            };
             libraran.renderer = {
                 type: "simple",
                 symbol: {
@@ -343,7 +299,7 @@
                         type: "extrude",
                         size: 5,
                         material: {
-                            color: [121, 68, 59]
+                            color: [121, 68, 59, 0.2]
                         }
                     }]
                 }
@@ -356,12 +312,25 @@
                         type: "extrude",
                         size: 20,
                         material: {
-                            color: [242, 235, 196]
+                            color: [242, 235, 196, 0.2]
                         }
                     }]
                 }
             };
-            shelf.renderer = {
+            // shelf.renderer = {
+            //     type: "simple",
+            //     symbol: {
+            //         type: "polygon-3d",
+            //         symbolLayers: [{
+            //             type: "extrude",
+            //             size: 12,
+            //             material: {
+            //                 color: [121, 68, 59, 0.2]
+            //             }
+            //         }]
+            //     }
+            // };
+            shelfCate.renderer = {
                 type: "simple",
                 symbol: {
                     type: "polygon-3d",
@@ -378,25 +347,36 @@
             const map = new Map({
                 basemap: "topo-vector",
                 ground: "world-elevation",
-                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem, libraran, room, shelf]
+                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem, libraran, room, shelf, shelfCate]
             });
-            // Khởi tạo SceneView và MapView trên cùng một `viewDiv`
+            // Khởi tạo SceneView và MapView trên cùng một `buildingCate`
             const view = new SceneView({
-                container: "viewDiv",
+                container: "buildingCate",
                 map: map,
                 center: [106.79619226956008, 10.869039384386499],
                 zoom: 19,
+                camera: {
+                    position: {
+                        longitude: 106.79702296270642,
+                        latitude: 10.856986948155267,
+                        z: 400 // Độ cao (mét)
+                    },
+                    tilt: 85 , // Góc nghiêng
+                    heading: 0  // Hướng Bắc
+                },
                 popup: { defaultPopupTemplateEnabled: true }
             });
-            building.when(() => {
+
+            // Hiển thị Popup mặc định khi GeoJSON Layer tải xong
+            shelfCate.when(() => {
                 // Giả sử phần tử đầu tiên trong GeoJSON được sử dụng
-                building.queryFeatures().then((result) => {
+                shelfCate.queryFeatures().then((result) => {
                 if (result.features.length > 0) {
+                    console.log("result:: ",result);
                     const firstFeature = result.features[0];
+                    console.log("firstFeature:: ",firstFeature);
                     const geometry = firstFeature.geometry;
-                    const location = geometry.centroild; 
-                    console.log("location:::",location);
-                    
+                    console.log("firstFeature.geometry:: ",geometry);
                     // Zoom đến phần tử nếu cần
                     if (firstFeature.geometry.extent) {
                         // Sử dụng extent để mở rộng phạm vi hiển thị
@@ -414,11 +394,11 @@
                         });
                     }
                     view.popup.open({
-                        title: firstFeature.attributes.name, // Dựa trên thuộc tính "name"
+                        title: firstFeature.attributes.name,
                         content: `
                             <b>Tên:</b> ${firstFeature.attributes.name} <br>
                         `,
-                        location: location
+                        location: firstFeature.geometry.centroild
                     });
                 }
                 });
@@ -432,8 +412,8 @@
                 });
             }
 
-            addGeoJSONLayer(map,"./ladder.geojson", [153, 217, 234, 0.8]);
-            addGeoJSONLayer(map,"./roof.geojson", "#c1c1c1");
+            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/ladder", [153, 217, 234]);
+            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/roof", "#c1c1c1");
 
             // const graphicsLayer = new GraphicsLayer();
             // map.add(graphicsLayer);
@@ -452,7 +432,7 @@
 </head>
 
 <body>
-    <div id="viewDiv"></div>
+    <div id="buildingCate"></div>
 </body>
 
 </html>

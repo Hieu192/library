@@ -10,6 +10,7 @@ import AdminDashboard from './Pages/Dashboard/AdminDashboard/AdminDashboard.js';
 import { useContext } from "react"
 import { AuthContext } from "./Context/AuthContext.js"
 import {useSelector} from "react-redux"
+import ModelCategory from './Pages/ModelCategory.js';
 
 function App() {
   const { user } = useContext(AuthContext)
@@ -38,6 +39,9 @@ function App() {
           </Route>
           <Route exact path='/model'>
             <Model />
+          </Route>
+          <Route exact path='/modelCate'>
+            <ModelCategory category="Trinh thám" />
           </Route>
         </Switch>
       </div>

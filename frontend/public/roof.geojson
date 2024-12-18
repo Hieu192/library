@@ -4,6 +4,7 @@
       {
         "type": "Feature",
         "properties": {
+            "Building name": "Mái nhà",
             "height": 4
         },
         "geometry": {
