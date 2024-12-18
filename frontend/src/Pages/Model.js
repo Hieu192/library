@@ -1,11 +1,9 @@
 import React, { useEffect, useRef } from "react";
 const Model = () => {
-  const data = encodeURIComponent(JSON.stringify({ category: "Trinh thám "})); // Dữ liệu truyền vào iframe
-  const iframeSrc = `./building.html?data=${data}`;
   return (
     <div style={{ width: "100%", height: "100vh" }}>
       <iframe
-        src={iframeSrc}
+        src="./building.html"
         width="100%"
         height="100%"
         title="Sample Map"

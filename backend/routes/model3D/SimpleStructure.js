@@ -4,6 +4,7 @@ import Floor from '../../models/model3D/Floor.js';
 import Face from '../../models/model3D/Face.js';
 import Node from '../../models/model3D/Node.js';
 import FaceNode from '../../models/model3D/FaceNode.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -105,6 +106,61 @@ router.get('/getStructureByNameVip/:name', async (req, res) => {
         const faces = [];
         for(const faceId of faceIds) {
             const face = await Face.findOne({ _id: faceId });
+            const nodeIds = face.nodeIds;
+            console.log("face::: ",face);
+            console.log("nodeIds::: ",nodeIds);
+            for (const nodeId of nodeIds) {
+                const node = await Node.findOne({ _id: nodeId });
+                console.log("node::: ",node);
+                nodes.push([node.x, node.y, node.z]);
+                console.log("nodes::: ",nodes);
+            }
+            faces.push({
+                "type": "Feature",
+                "properties": {
+                    "height": face.height,
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [nodes]
+                },
+            });
+            nodes = [];
+            console.log("faces::: ",faces);
+        }
+
+        const file = {
+            "type": "FeatureCollection",
+            "generator": "smartcity",
+            "features": faces
+        };
+
+
+        res.status(200).json(file);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+router.get('/getShelfByCate', async (req, res) => {
+    try {
+        // const simpleStructures = await SimpleStructure.find({});
+        const simpleStructure = await SimpleStructure.findOne({
+            name: "shelf"
+        });
+        const faceIds = simpleStructure.faceIds;
+        var nodes = [];
+        const faces = [];
+        console.log("query::: ",req.query.query);
+        const name = req.query.query;
+        console.log("name::: ",typeof(name));
+        for(const faceId of faceIds) {
+            console.log("faceId::: ",faceId);
+            const face = await Face.findOne({ _id: mongoose.Types.ObjectId(faceId), name: name});
+            console.log("face::: ",face);
+            if (!face) {
+                continue;
+            }
             const nodeIds = face.nodeIds;
             console.log("face::: ",face);
             console.log("nodeIds::: ",nodeIds);

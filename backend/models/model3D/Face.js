@@ -6,6 +6,10 @@ const FaceSchema = new mongoose.Schema({
     //     require: true,
     //     unique: true
     // },
+    name: {
+        type: String,
+        default: ""
+    },
     nodeIds: [{ 
         type: mongoose.Types.ObjectId, 
         ref: "Node" 

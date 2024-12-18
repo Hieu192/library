@@ -1,0 +1,105 @@
+/* Reset cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+  
+  /* Container chính */
+  .main-container {
+    display: flex;
+    flex-direction: row;
+    padding: 100px 150px;
+    gap: 20px;
+    background-color: #f0f0f0;
+    width: 100vw;
+  }
+  
+  /* Box chứa thông tin */
+  .info-box {
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+  }
+  
+  /* Box ảnh và slider */
+  .image-container {
+    display: flex;
+    padding: 20px 50px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  /* Ảnh lớn */
+  .book-cover {
+    width: 200px;
+    height: auto;
+  }
+  
+  /* Ảnh nhỏ trong slider */
+  .thumbnail-slider img {
+    cursor: pointer;
+    width: 100px;
+    height: auto;
+  }
+  
+  /* Modal Iframe */
+  .iframe-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .iframe-container {
+    width: 80%;
+    height: 80%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Nút đóng modal */
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  /* Nút xem bản đồ */
+  .map-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

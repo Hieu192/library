@@ -72,6 +72,7 @@ router.put("/:id/move-to-activetransactions" , async (req,res)=>{
 router.put("/:id/move-to-prevtransactions", async (req,res)=>{
     if(req.body.isAdmin){
         try{
+            console.log("Trả thành công")
             const user = await User.findById(req.body.userId);
             await user.updateOne({$pull:{activeTransactions:req.params.id}})
             await user.updateOne({$push:{prevTransactions:req.params.id}})
