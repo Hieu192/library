@@ -7,7 +7,7 @@ const Model = () => {
         width="100%"
         height="100%"
         title="Sample Map"
-        style={{ border: "none" }}
+        style={{ border: "none", marginTop: "60px" }}
       />
     </div>
   );

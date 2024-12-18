@@ -163,7 +163,14 @@
                 url: "http://localhost:5000/api/simpleStructures/getStructureByNameVip/shelf"
             });
             const shelfCate = new GeoJSONLayer({
-                url: `http://localhost:5000/api/simpleStructures//getShelfByCate?query=${parsedData}`
+                url: `http://localhost:5000/api/simpleStructures/getShelfByCate?query=${parsedData.category}`,
+                popupTemplate: {
+                    title: "test", // Lấy trường `name` làm tiêu đề
+                    content: `
+                    <b>Tên:</b> {name} <br>
+                    <b>Mô tả:</b> {description} <br>
+                    ` // Thêm các trường khác nếu cần
+                }
             });
             building.renderer = {
                 type: "simple",
@@ -310,7 +317,20 @@
                     }]
                 }
             };
-            shelf.renderer = {
+            // shelf.renderer = {
+            //     type: "simple",
+            //     symbol: {
+            //         type: "polygon-3d",
+            //         symbolLayers: [{
+            //             type: "extrude",
+            //             size: 12,
+            //             material: {
+            //                 color: [121, 68, 59, 0.2]
+            //             }
+            //         }]
+            //     }
+            // };
+            shelfCate.renderer = {
                 type: "simple",
                 symbol: {
                     type: "polygon-3d",
@@ -327,7 +347,7 @@
             const map = new Map({
                 basemap: "topo-vector",
                 ground: "world-elevation",
-                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem, libraran, room, shelf]
+                layers: [building,floor,railing1,railing2,railing3,railing4,pillar, bacthem, railing_bacthem, libraran, room, shelf, shelfCate]
             });
             // Khởi tạo SceneView và MapView trên cùng một `buildingCate`
             const view = new SceneView({
@@ -335,11 +355,65 @@
                 map: map,
                 center: [106.79619226956008, 10.869039384386499],
                 zoom: 19,
+                camera: {
+                    position: {
+                        longitude: 106.79702296270642,
+                        latitude: 10.856986948155267,
+                        z: 400 // Độ cao (mét)
+                    },
+                    tilt: 85 , // Góc nghiêng
+                    heading: 0  // Hướng Bắc
+                },
                 popup: { defaultPopupTemplateEnabled: true }
             });
 
-            addGeoJSONLayer(map,"./ladder.geojson", [153, 217, 234, 0.8]);
-            addGeoJSONLayer(map,"./roof.geojson", "#c1c1c1");
+            // Hiển thị Popup mặc định khi GeoJSON Layer tải xong
+            shelfCate.when(() => {
+                // Giả sử phần tử đầu tiên trong GeoJSON được sử dụng
+                shelfCate.queryFeatures().then((result) => {
+                if (result.features.length > 0) {
+                    console.log("result:: ",result);
+                    const firstFeature = result.features[0];
+                    console.log("firstFeature:: ",firstFeature);
+                    const geometry = firstFeature.geometry;
+                    console.log("firstFeature.geometry:: ",geometry);
+                    // Zoom đến phần tử nếu cần
+                    if (firstFeature.geometry.extent) {
+                        // Sử dụng extent để mở rộng phạm vi hiển thị
+                        const bufferExtent = firstFeature.geometry.extent.expand(4.5 ); // Mở rộng 4.5 lần
+                        view.goTo({
+                            target: bufferExtent
+                        }).then(() => {
+                            addHighlightEffect(firstFeature);
+                        });;
+                    } else {
+                        view.goTo({
+                            target: firstFeature.geometry,
+                        }).then(() => {
+                            addHighlightEffect(firstFeature);
+                        });
+                    }
+                    view.popup.open({
+                        title: firstFeature.attributes.name,
+                        content: `
+                            <b>Tên:</b> ${firstFeature.attributes.name} <br>
+                        `,
+                        location: firstFeature.geometry.centroild
+                    });
+                }
+                });
+            });
+            function addHighlightEffect(feature) {
+                view.whenLayerView(shelfCate).then((layerView) => {
+                    if (highlight) {
+                        highlight.remove(); // Xóa highlight cũ nếu có
+                    }
+                    highlight = layerView.highlight(feature); // Tạo highlight mới
+                });
+            }
+
+            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/ladder", [153, 217, 234]);
+            addGeoJSONLayer(map,"http://localhost:5000/api/simpleStructures/getStructureByNameVip/roof", "#c1c1c1");
 
             // const graphicsLayer = new GraphicsLayer();
             // map.add(graphicsLayer);

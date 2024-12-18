@@ -388,6 +388,49 @@
                 zoom: 19,
                 popup: { defaultPopupTemplateEnabled: true }
             });
+            building.when(() => {
+                // Giả sử phần tử đầu tiên trong GeoJSON được sử dụng
+                building.queryFeatures().then((result) => {
+                if (result.features.length > 0) {
+                    const firstFeature = result.features[0];
+                    const geometry = firstFeature.geometry;
+                    const location = geometry.centroild; 
+                    console.log("location:::",location);
+                    
+                    // Zoom đến phần tử nếu cần
+                    if (firstFeature.geometry.extent) {
+                        // Sử dụng extent để mở rộng phạm vi hiển thị
+                        const bufferExtent = firstFeature.geometry.extent.expand(4.5 ); // Mở rộng 4.5 lần
+                        view.goTo({
+                            target: bufferExtent
+                        }).then(() => {
+                            addHighlightEffect(firstFeature);
+                        });;
+                    } else {
+                        view.goTo({
+                            target: firstFeature.geometry,
+                        }).then(() => {
+                            addHighlightEffect(firstFeature);
+                        });
+                    }
+                    view.popup.open({
+                        title: firstFeature.attributes.name, // Dựa trên thuộc tính "name"
+                        content: `
+                            <b>Tên:</b> ${firstFeature.attributes.name} <br>
+                        `,
+                        location: location
+                    });
+                }
+                });
+            });
+            function addHighlightEffect(feature) {
+                view.whenLayerView(shelfCate).then((layerView) => {
+                    if (highlight) {
+                        highlight.remove(); // Xóa highlight cũ nếu có
+                    }
+                    highlight = layerView.highlight(feature); // Tạo highlight mới
+                });
+            }
 
             addGeoJSONLayer(map,"./ladder.geojson", [153, 217, 234, 0.8]);
             addGeoJSONLayer(map,"./roof.geojson", "#c1c1c1");

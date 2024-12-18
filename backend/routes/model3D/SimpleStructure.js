@@ -151,9 +151,7 @@ router.get('/getShelfByCate', async (req, res) => {
         const faceIds = simpleStructure.faceIds;
         var nodes = [];
         const faces = [];
-        console.log("query::: ",req.query.query);
-        const name = req.query.query;
-        console.log("name::: ",typeof(name));
+        const name = req.query.query.trim();
         for(const faceId of faceIds) {
             console.log("faceId::: ",faceId);
             const face = await Face.findOne({ _id: mongoose.Types.ObjectId(faceId), name: name});
@@ -174,6 +172,7 @@ router.get('/getShelfByCate', async (req, res) => {
                 "type": "Feature",
                 "properties": {
                     "height": face.height,
+                    "name": 'Kệ sách '+face.name
                 },
                 "geometry": {
                     "type": "Polygon",
