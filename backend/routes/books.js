@@ -119,17 +119,16 @@ router.delete("/removebook/:id", async (req, res) => {
 
 // get sachs moi them gan day
 router.get('/recent', async (req, res) => {
+    console.log("goi recent")
     try {
         // Tính thời gian 60 ngày trước
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 60);
-    
+        const dayAgo = new Date();
+        dayAgo.setDate(dayAgo.getDate() - 60);
         // Lọc sách dựa trên `createAt`
-        const recentBooks = await Book.find({ createAt: { $gte: sevenDaysAgo } })
+        const recentBooks = await Book.find({ createdAt: { $gte: dayAgo } }).populate("transactions").populate("categories")
           .sort({ createAt: -1 }) // Sắp xếp giảm dần theo ngày tạo
           .limit(10); // Lấy tối đa 10 sách gần đây
-    
-        res.status(200).json({ success: true, data: recentBooks });
+        res.status(200).json(recentBooks);
       } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -137,19 +136,19 @@ router.get('/recent', async (req, res) => {
 });
 
 // Sach pho bien
-// router.get('/popular', async (req, res) => {
-//     try {
-//         const popularBooks = await Book.find()
-//           .sort({ borrowedCount: -1 }) // Sắp xếp giảm dần theo số lần mượn
-//           .limit(10); // Lấy tối đa 10 sách phổ biến
+router.get('/popular', async (req, res) => {
+    try {
+        const popularBooks = await Book.find().populate("transactions").populate("categories")
+          .sort({ borrowedCount: -1 }) // Sắp xếp giảm dần theo số lần mượn
+          .limit(10); // Lấy tối đa 10 sách phổ biến
     
-//         res.status(200).json({ success: true, data: popularBooks });
-//       } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ success: false, message: 'Server error' });
-//       }
-//     }
-// )
+        res.status(200).json(popularBooks);
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
+      }
+    }
+)
 
 // search sach
 router.get('/search', async (req, res) => {

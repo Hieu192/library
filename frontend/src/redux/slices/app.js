@@ -7,7 +7,9 @@ const initialState = {
   user: {},
   isLoading: false,
   books:[],
-  searchBooks:""
+  searchBooks:"",
+  booksRecent:[],
+  booksPopular:[]
 };
 
 const slice = createSlice({
@@ -19,6 +21,12 @@ const slice = createSlice({
     },
     fetchBooks(state, action) {
       state.books = action.payload.books;
+    },
+    fetchRecentBooks(state, action) {
+      state.booksRecent = action.payload.booksRecent;
+    },
+    fetchPopularBooks(state, action) {
+      state.booksPopular = action.payload.booksPopular;
     },
     updateUser(state, action) {
       state.user = action.payload.user;
@@ -54,6 +62,36 @@ export function FetchBooks() {
       )
       .then((response) => {
         dispatch(slice.actions.fetchBooks({ books: response.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+export function FetchRecentBooks() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/books/recent"
+      )
+      .then((response) => {
+        dispatch(slice.actions.fetchRecentBooks({ booksRecent: response.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+export function FetchPopularBooks() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/books/popular"
+      )
+      .then((response) => {
+        dispatch(slice.actions.fetchPopularBooks({ booksPopular: response.data }));
       })
       .catch((err) => {
         console.log(err);
