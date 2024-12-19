@@ -448,6 +448,18 @@
                   },
                 });
 
+                if (feature.geometry.extent) {
+                        // Sử dụng extent để mở rộng phạm vi hiển thị
+                        const bufferExtent = feature.geometry.extent.expand(4.5 ); // Mở rộng 4.5 lần
+                        view.goTo({
+                            target: bufferExtent
+                        })
+                    } else {
+                        view.goTo({
+                            target: feature.geometry,
+                        })
+                    }                
+
                 // Tùy chọn: Tắt highlight sau 10 giây
                 //setTimeout(() => {
                 // highlightHandle.remove();
