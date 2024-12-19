@@ -354,19 +354,19 @@
             ],
           },
         };
-        // shelf.renderer = {
-        //     type: "simple",
-        //     symbol: {
-        //         type: "polygon-3d",
-        //         symbolLayers: [{
-        //             type: "extrude",
-        //             size: 12,
-        //             material: {
-        //                 color: [121, 68, 59, 0.2]
-        //             }
-        //         }]
-        //     }
-        // };
+        shelf.renderer = {
+            type: "simple",
+            symbol: {
+                type: "polygon-3d",
+                symbolLayers: [{
+                    type: "extrude",
+                    size: 12,
+                    material: {
+                        color: [121, 68, 59]
+                    }
+                }]
+            }
+        };
         shelfCate.renderer = {
           type: "simple",
           symbol: {
@@ -502,6 +502,47 @@
             }
           });
         });
+        view.on("click", async (event) => {
+          const response = await view.hitTest(event);
+          const results = response.results.filter((result) => {
+            return result.graphic && result.graphic.layer === featureLayer;
+          });
+
+          if (results.length > 0) {
+            const graphics = results.map((result) => result.graphic);
+            showCustomPopup(graphics, event.mapPoint);
+          }
+        });
+
+        function showCustomPopup(graphics, location) {
+          const popupContent = document.createElement("div");
+          popupContent.classList.add("custom-popup");
+
+          graphics.forEach((graphic, index) => {
+            const item = document.createElement("div");
+            item.classList.add("custom-popup-item");
+            item.textContent = `Item ${index + 1}: ${
+              graphic.attributes.Name || "No Name"
+            }`;
+            item.onclick = () => {
+              view.popup.open({
+                title: `Details for ${graphic.attributes.Name}`,
+                content: `<p>${JSON.stringify(
+                  graphic.attributes,
+                  null,
+                  2
+                )}</p>`,
+                location: location
+              });
+            };
+            popupContent.appendChild(item);
+          });
+
+          view.popup.open({
+            location: location,
+            content: popupContent
+          });
+        }
       });
     </script>
   </head>
