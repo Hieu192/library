@@ -448,8 +448,7 @@
                 });
 
                 if (feature.geometry.extent) {
-                        // Sử dụng extent để mở rộng phạm vi hiển thị
-                        const bufferExtent = feature.geometry.extent.expand(4.5 ); // Mở rộng 4.5 lần
+                        const bufferExtent = feature.geometry.extent.expand(4.5 ); 
                         view.goTo({
                             target: bufferExtent
                         })
