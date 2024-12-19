@@ -440,6 +440,11 @@
                           feature.attributes.description || "Không có"
                         } <br>
                     `,
+                  location: {
+                      longitude: feature.geometry.extent.xmax,
+                      latitude: feature.geometry.extent.ymax,
+                      z: 55
+                  },
                 });
 
                 if (feature.geometry.extent) {
