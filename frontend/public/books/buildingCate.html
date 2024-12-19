@@ -429,7 +429,6 @@
 
                 // Highlight đối tượng
                 const highlightHandle = layerView.highlight(feature);
-
                 // Hiển thị popup
                 view.popup.open({
                   title: "Thông tin Đối tượng",
@@ -441,11 +440,6 @@
                           feature.attributes.description || "Không có"
                         } <br>
                     `,
-                  location: feature.geometry.centroid,
-                  offset: {
-                    x: 0, // Dịch ngang (px)
-                    y: -100, // Dịch dọc lên trên (px)
-                  },
                 });
 
                 if (feature.geometry.extent) {
