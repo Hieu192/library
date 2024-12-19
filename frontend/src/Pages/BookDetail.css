@@ -9,6 +9,21 @@
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
   }
+  .collapsible-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: max-height 0.3s ease;
+  }
+  
+  .collapsed {
+    -webkit-line-clamp: 5; /* Hiển thị 3 dòng */
+  }
+  
+  .expanded {
+    -webkit-line-clamp: unset; /* Bỏ giới hạn dòng */
+  }
   
   /* Container chính */
   .main-container {
@@ -40,6 +55,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap:10px
   }
   
   /* Ảnh lớn */

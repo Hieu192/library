@@ -1,32 +1,55 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './RecentAddedBooks.css'
+import { FetchRecentBooks } from '../redux/slices/app';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
 
 function RecentAddedBooks() {
+    const dispatch = useDispatch();
+    const { booksRecent } = useSelector((state) => state.app);
+    console.log("booksRecent::",booksRecent);
+    useEffect(() => {
+        dispatch(FetchRecentBooks());
+    }, []);
     return (
         <div className='recentaddedbooks-container'>
             <h className='recentbooks-title'>Sách mới thêm gần đây </h>
             <div className='recentbooks'>
                 <div className='images'>
-                    <img className='recent-book' src='https://inkinmytea.files.wordpress.com/2011/12/apj.jpg?w=640' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/91VokXkn8hL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/81-QB7nDh4L.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/71m-MxdJ2WL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/71t4GuxLCuL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://19en282jw7pc3zpwj22pg8v0-wpengine.netdna-ssl.com/wp-content/uploads/2021/01/Good-to-Great-Jim-Collins.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/81mXQdi5x+L.jpg' alt=''></img>
-                    <img className='recent-book' src='https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1498813353l/34267304.jpg' alt=''></img>
-                    <img className='recent-book' src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg?ts=1588152105' alt=''></img>
-                </div>
-                <div className='images'>
-                    <img className='recent-book' src='https://inkinmytea.files.wordpress.com/2011/12/apj.jpg?w=640' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/91VokXkn8hL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/81-QB7nDh4L.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/71m-MxdJ2WL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/71t4GuxLCuL.jpg' alt=''></img>
-                    <img className='recent-book' src='https://19en282jw7pc3zpwj22pg8v0-wpengine.netdna-ssl.com/wp-content/uploads/2021/01/Good-to-Great-Jim-Collins.jpg' alt=''></img>
-                    <img className='recent-book' src='https://images-na.ssl-images-amazon.com/images/I/81mXQdi5x+L.jpg' alt=''></img>
-                    <img className='recent-book' src='https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1498813353l/34267304.jpg' alt=''></img>
-                    <img className='recent-book' src='https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg?ts=1588152105' alt=''></img>
+                    {booksRecent.map((book) => {
+                        return (
+                            <Link to={`/books/${book._id}`}>
+                            <div
+                                key={book._id}
+                                className="book-card"
+                            >
+                                <img src={book.image[0].url} alt=""></img>
+                                <p className="bookcard-title">{book.bookName}</p>
+                                <p className="bookcard-author">{book.author}</p>
+                                <div className="bookcard-category">
+                                <p>{book.categories[0].categoryName}</p>
+                                </div>
+                            </div>
+                            </Link>
+                        );
+                        })} 
+                        {booksRecent.map((book) => {
+                        return (
+                            <Link to={`/books/${book._id}`}>
+                            <div
+                                key={book._id}
+                                className="book-card"
+                            >
+                                <img src={book.image[0].url} alt=""></img>
+                                <p className="bookcard-title">{book.bookName}</p>
+                                <p className="bookcard-author">{book.author}</p>
+                                <div className="bookcard-category">
+                                <p>{book.categories[0].categoryName}</p>
+                                </div>
+                            </div>
+                            </Link>
+                        );
+                        })}              
                 </div>
             </div>
         </div>

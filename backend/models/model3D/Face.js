@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const FaceSchema = new mongoose.Schema({
@@ -18,6 +19,10 @@ const FaceSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    description: {
+        type: String,
+        default: ""
+    }
 });
 
 export default mongoose.model("Face", FaceSchema);
