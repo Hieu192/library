@@ -36,8 +36,8 @@ function BookDetail() {
   if (error) return <p>{error}</p>;
 
   return (
-<div className="main-container">
-  <div className="image-container">
+<div className="main-container" style={{position:"relative"}}>
+  <div className="image-container" style={{position:"sticky",top:"100px",height:"550px"}}>
     <img className="book-cover" src={book.image[0]?.url} alt={book.title} />
     <Swiper className="thumbnail-slider">
       {book.image.map((image, index) => (
@@ -64,7 +64,6 @@ function BookDetail() {
       <div><strong>Số lượng có sẵn:</strong> {book.bookCountAvailable}</div>
     </div>
   </div>
-
   <button className="map-btn" onClick={() => setShowIframe(true)}>
     Xem vị trí sách trong thư viện
   </button>
