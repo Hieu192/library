@@ -117,8 +117,8 @@
                             tilt: 70
                         });
                         view.popup.open({
-                            title: `Room Information`,
-                            content: `<b>Name:</b> ${roomName}<br><b>Area:</b> ${feature.attributes.area || 'N/A'} m²`,
+                            title: `Thông tin phòng`,
+                            content: `<b>Name:</b> ${roomName}<br><b>Area:</b> ${feature.attributes.description || 'N/A'} m²`,
                             location: feature.geometry.centroid
                         });
                     });

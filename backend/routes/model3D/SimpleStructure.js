@@ -119,6 +119,8 @@ router.get('/getStructureByNameVip/:name', async (req, res) => {
                 "type": "Feature",
                 "properties": {
                     "height": face.height,
+                    "name": face.name,
+                    "description": face.description
                 },
                 "geometry": {
                     "type": "Polygon",
@@ -172,7 +174,8 @@ router.get('/getShelfByCate', async (req, res) => {
                 "type": "Feature",
                 "properties": {
                     "height": face.height,
-                    "name": 'Kệ sách '+face.name
+                    "name": 'Kệ sách '+face.name,
+                    "description": 'Sách bạn đang tìm đang ở đây thuộc ' + face.description
                 },
                 "geometry": {
                     "type": "Polygon",
