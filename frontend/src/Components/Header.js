@@ -7,10 +7,12 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { AuthContext } from "../Context/AuthContext.js";
 import { useDispatch } from "react-redux";
 import { updateSearchBooks } from "../redux/slices/app.js";
+import { useHistory  } from "react-router-dom";
 function Header() {
   const { user } = useContext(AuthContext);
   const [menutoggle, setMenutoggle] = useState(false);
   const [value, setValue] = useState("");
+  const history = useHistory ();
   useEffect(() => {
     dispatch(updateSearchBooks(value));
   }, [value]);
@@ -21,6 +23,12 @@ function Header() {
 
   const closeMenu = () => {
     setMenutoggle(false);
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      // Điều hướng đến trang tìm kiếm
+      history.push(`/books`);
+    }
   };
 
   return (
@@ -39,6 +47,7 @@ function Header() {
           onChange={(e) => {
             setValue(e.target.value);
           }}
+          onKeyDown={handleKeyDown}
         />
         <ul className={menutoggle ? "nav-options active" : "nav-options"}>
           <li

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './RecentAddedBooks.css'
 import { FetchRecentBooks } from '../redux/slices/app';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from '@material-ui/core';
+import { Link } from "react-router-dom";
 
 function RecentAddedBooks() {
     const dispatch = useDispatch();

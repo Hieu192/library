@@ -119,7 +119,6 @@ router.delete("/removebook/:id", async (req, res) => {
 
 // get sachs moi them gan day
 router.get('/recent', async (req, res) => {
-    console.log("goi recent")
     try {
         // Tính thời gian 60 ngày trước
         const dayAgo = new Date();
@@ -154,16 +153,23 @@ router.get('/popular', async (req, res) => {
 router.get('/search', async (req, res) => {
     try {
         const { query } = req.query; // Lấy từ khóa tìm kiếm từ request
-        console.log("query:::",query)
-        // Tìm sách dựa trên tên sách hoặc tên tác giả
-        const books = await Book.find({
-            $or: [
-                { bookName: { $regex: query, $options: 'i' } }, // Tìm kiếm theo tên sách
-                { author: { $regex: query, $options: 'i' } }    // Tìm kiếm theo tên tác giả
-            ]
-        });
-        // Trả về danh sách sách tìm được
-        res.status(200).json(books);
+        let searchConditions = [];
+        if(query?.category) {
+            searchConditions.push({ categories: query.category });
+        }
+        if(query?.keyword) {
+            searchConditions.push({
+                $or: [
+                    { bookName: { $regex: query.keyword, $options: 'i' } }, // Tìm kiếm theo tên sách
+                    { author: { $regex: query.keyword, $options: 'i' } }   // Tìm kiếm theo tên tác giả
+                ]
+            });
+        }
+        const products = await Book.find(
+            searchConditions.length > 0 ? { $and: searchConditions } : {}
+        ).populate("transactions").populate("categories");
+
+        res.status(200).json(products);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình tìm kiếm' });

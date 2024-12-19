@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./PopularBooks.css";
 import { useDispatch, useSelector } from "react-redux";
 import { FetchPopularBooks } from "../redux/slices/app";
-import { Link } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 function PopularBooks() {
   const dispatch = useDispatch();
