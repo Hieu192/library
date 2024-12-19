@@ -3,6 +3,7 @@ import './Stats.css'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import BookIcon from '@material-ui/icons/Book';
+import CategoryIcon from '@material-ui/icons/Category';
 import { FetchCount } from '../redux/slices/app';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,7 +22,7 @@ function Stats() {
                 <p className='stats-count'>{counts?.counts?.countBook}</p>
             </div>
             <div className='stats-block'>
-                <LibraryBooksIcon className='stats-icon' style={{ fontSize:80 }}/>
+                <CategoryIcon className='stats-icon' style={{ fontSize:80 }}/>
                 <p className='stats-title'>Tổng thể loại </p>
                 <p className='stats-count'>{counts?.counts?.countCategory}</p>
             </div>
