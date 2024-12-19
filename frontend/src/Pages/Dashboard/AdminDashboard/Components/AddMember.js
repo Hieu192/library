@@ -30,8 +30,8 @@ function AddMember() {
     ]
 
     const userTypes = [
-        { value: 'Nhân viên', text: 'Nhân viên' },
-        { value: 'Học sinh', text: 'Học sinh' }
+        { value: 'Staff', text: 'Nhân Viên' },
+        { value: 'Student', text: 'Thành viên' }
     ]
 
     //Add a Member
@@ -100,12 +100,12 @@ function AddMember() {
 
     return (
         <div>
-            <p className="dashboard-option-title">Thêm Thành Viên </p>
+            <p className="dashboard-option-title">Thêm Thành Viên</p>
             <div className="dashboard-title-line"></div>
             <form className="addmember-form" onSubmit={addMember}>
                 <div className='semanticdropdown'>
                     <Dropdown
-                        placeholder='User Type'
+                        placeholder='Loại tài khoản '
                         fluid
                         selection
                         options={userTypes}
@@ -115,16 +115,16 @@ function AddMember() {
                 <label className="addmember-form-label" htmlFor="userFullName">Họ và Tên <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" name="userFullName" value={userFullName} required onChange={(e) => setUserFullName(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor={userType === "Student" ? "admissionId" : "employeeId"}>{userType === "Student" ? "ID Quản trị " : "ID Nhân Viên "}<span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor={userType === "Student" ? "admissionId" : "employeeId"}>{userType === "Student" ? "Tài khoản thành viên " : "Tài khoản nhân viên"}<span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={userType === "Student" ? admissionId : employeeId} required onChange={(e) => { userType === "Student" ? setAdmissionId(e.target.value) : setEmployeeId(e.target.value) }}></input><br />
 
-                <label className="addmember-form-label" htmlFor="mobileNumber">Số Điện Thoại <span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="mobileNumber">Số điện thoại <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={mobileNumber} required onChange={(e) => setMobileNumber(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor="gender">Giới Tính <span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="gender">Giới tính <span className="required-field">*</span></label><br />
                 <div className='semanticdropdown'>
                     <Dropdown
-                        placeholder='User Type'
+                        placeholder='Chọn giới tính '
                         fluid
                         selection
                         value={gender}
@@ -136,7 +136,7 @@ function AddMember() {
                 <label className="addmember-form-label" htmlFor="age">Tuổi <span className="required-field">*</span></label><br />
                 <input className="addmember-form-input" type="text" value={age} required onChange={(e) => setAge(e.target.value)}></input><br />
 
-                <label className="addmember-form-label" htmlFor="dob">Ngày Sinh <span className="required-field">*</span></label><br />
+                <label className="addmember-form-label" htmlFor="dob">Ngày sinh <span className="required-field">*</span></label><br />
                 <DatePicker
                     className="date-picker"
                     placeholderText="MM/DD/YYYY"
@@ -165,15 +165,15 @@ function AddMember() {
                 <tr>
                     <th>STT </th>
                     <th>Loại Thành Viên </th>
-                    <th>ID Thành Viên </th>
-                    <th>Tên Thành Viên </th>
+                    <th>Tài khoản</th>
+                    <th>Tên Thành Viên</th>
                 </tr>
                 {
                     recentAddedMembers.map((member, index) => {
                         return (
                             <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{member.userType}</td>
+                                <td>{member.userType === "Student" ? "Thành Viên" : "Nhân Viên "}</td>
                                 <td>{member.userType === "Student" ? member.admissionId : member.employeeId}</td>
                                 <td>{member.userFullName}</td>
                             </tr>

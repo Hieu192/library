@@ -40,7 +40,7 @@ function Signin() {
                     <h2 className="signin-title"> Log in</h2>
                     <p className="line"></p>
                     <div className="persontype-question">
-                        <p>Bạn có phải là quản trị viên không ?</p>
+                        <p>Bạn có phải là nhân viên không ?</p>
                         <Switch
                             onChange={() => setIsStudent(!isStudent)}
                             color="primary"
@@ -48,8 +48,8 @@ function Signin() {
                     </div>
                     <div className="error-message"><p>{error}</p></div>
                     <div className="signin-fields">
-                        <label htmlFor={isStudent?"admissionId":"employeeId"}> <b>{isStudent?"ID Thành viên ":"ID Quản trị viên "}</b></label>
-                        <input className='signin-textbox' type="text" placeholder={isStudent?"Nhập tài khoản thành viên ":"Nhập tài khoản quản trị viên"} name={!isStudent?"employeeId":"admissionId"} required onChange={(e) => { isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
+                        <label htmlFor={isStudent?"admissionId":"employeeId"}> <b>{isStudent?"Tài khoản thành viên ":"Tài khoản nhân viên"}</b></label>
+                        <input className='signin-textbox' type="text" placeholder={isStudent?"Nhập tài khoản thành viên ":"Nhập tài khoản nhân viên"} name={!isStudent?"employeeId":"admissionId"} required onChange={(e) => { isStudent?setAdmissionId(e.target.value):setEmployeeId(e.target.value) }}/>
                         <label htmlFor="password"><b>Mật khẩu </b></label>
                         <input className='signin-textbox' type="password" minLength='6' placeholder="Nhập mật khẩu " name="psw" required onChange={(e) => { setPassword(e.target.value) }} />
                         </div>
@@ -57,7 +57,7 @@ function Signin() {
                     <a className="forget-pass" href="#home">Quên mật khẩu ?</a>
                 </form>
                 <div className='signup-option'>
-                    <p className="signup-question">Bạn không có tài khoản? Hãy liên hệ thủ thư </p>
+                    <p className="signup-question">Bạn không có tài khoản? Hãy liên hệ thủ thư hoặc nhân viên để tạo tài khoản </p>
                 </div>
             </div>
         </div>

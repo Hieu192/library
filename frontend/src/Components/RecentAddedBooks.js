@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 function RecentAddedBooks() {
     const dispatch = useDispatch();
     const { booksRecent } = useSelector((state) => state.app);
-    console.log("booksRecent::",booksRecent);
     useEffect(() => {
         dispatch(FetchRecentBooks());
     }, []);

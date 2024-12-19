@@ -9,7 +9,8 @@ const initialState = {
   books:[],
   searchBooks:"",
   booksRecent:[],
-  booksPopular:[]
+  booksPopular:[],
+  counts: {}
 };
 
 const slice = createSlice({
@@ -37,7 +38,9 @@ const slice = createSlice({
     updateSearchBooks(state, action) {
       state.searchBooks = action.payload;
     },
-
+    fetchCount(state, action) {
+      state.counts = action.payload;
+    },
  
   },
 });
@@ -48,7 +51,7 @@ export const {
   fetchUser,
   updateUser,
   updateLoading,
-  updateSearchBooks
+  updateSearchBooks,
 } = slice.actions;
 // ----------------------------------------------------------------------
 
@@ -92,6 +95,21 @@ export function FetchPopularBooks() {
       )
       .then((response) => {
         dispatch(slice.actions.fetchPopularBooks({ booksPopular: response.data }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+export function FetchCount() {
+  return async (dispatch, getState) => {
+    await axios
+      .get(
+        "/books/counts"
+      )
+      .then((response) => {
+        dispatch(slice.actions.fetchCount({ counts: response.data}));
       })
       .catch((err) => {
         console.log(err);

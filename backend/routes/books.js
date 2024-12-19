@@ -2,6 +2,8 @@ import express from "express"
 import Book from "../models/Book.js"
 import BookCategory from "../models/BookCategory.js"
 import cloudinary from "cloudinary";
+import User from "../models/User.js";
+import BookTransaction from "../models/BookTransaction.js";
 
 
 const router = express.Router()
@@ -175,6 +177,27 @@ router.get('/search', async (req, res) => {
         res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình tìm kiếm' });
     }}
 )
+
+router.get('/counts', async (req, res) => {
+    console.log("test")
+    try {
+        const countBook = await Book.countDocuments();
+        const countCategory = await BookCategory.countDocuments();
+        const countMember = await User.countDocuments();
+        const countTransaction = await BookTransaction.countDocuments();
+        const count = {
+            countBook,
+            countCategory,
+            countMember,
+            countTransaction
+        };
+        console.log("count::",count)
+        res.status(200).json(count);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi trong quá trình lấy số lượng' });
+    }
+})
 
 
 export default router
