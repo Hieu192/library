@@ -12,7 +12,14 @@
     padding: 15px;
 
 }
-
+.collapsed-1 {
+    display: -webkit-box; /* Quan trọng */
+    -webkit-line-clamp: 1; /* Số dòng cần hiển thị */
+    -webkit-box-orient: vertical; /* Quan trọng */
+    overflow: hidden; /* Đảm bảo cắt phần vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu "..." */
+    white-space: normal; /* Tránh chữ bị thu nhỏ */
+}
 .book-card{
     display: flex;
     justify-content: center;
@@ -42,10 +49,10 @@
 }
 
 .bookcard-title{
-    word-wrap: break-word;
     text-align: center;
     font-weight: 600;
     font-size: 16px;
+    -webkit-line-clamp: 1;
 }
 
 .bookcard-author{

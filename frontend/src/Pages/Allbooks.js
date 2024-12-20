@@ -26,7 +26,7 @@ function Allbooks() {
                 className="book-card"
               >
                 <img src={book.image[0].url} alt=""></img>
-                <p className="bookcard-title">{book.bookName}</p>
+                <div className="bookcard-title collapsed-1">{book.bookName}</div>
                 <p className="bookcard-author">{book.author}</p>
                 <div className="bookcard-category">
                   <p>{book.categories[0].categoryName}</p>
