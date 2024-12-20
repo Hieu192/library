@@ -92,6 +92,7 @@
             "esri/symbols/FillSymbol3DLayer"
         ], function(Map, SceneView, GeoJSONLayer, Graphic, MapView, GraphicsLayer, Mesh, MeshSymbol3D, FillSymbol3DLayer) {
             let currentHighlightHandle = null; // Biến lưu highlight hiện tại
+            let isClicked = false; // Biến kiểm tra xem đã click vào phòng chưa
             // Hàm tạo bảng hiển thị thông tin phòng
             function createRoomTable(features, layerView) {
                 const tableDiv = document.getElementById("dataTable");
@@ -99,6 +100,32 @@
 
                 const header = table.insertRow();
                 header.innerHTML = "<th>Tên Phòng </th>";
+                const modelDefault = table.insertRow();
+                modelDefault.innerHTML = "<td>Mặc định </td>";
+                modelDefault.addEventListener("click", () => {
+                    isClicked = false
+                    if (currentHighlightHandle) {
+                        currentHighlightHandle.remove();
+                        currentHighlightHandle = null;
+                    }
+                    view.goTo(initialCamera);
+                    view.popup.close();
+                    building.renderer = {
+                        type: "simple",
+                        symbol: {
+                            type: "polygon-3d",
+                            symbolLayers: [{
+                                type: "extrude",
+                                size: 120,
+                                material: {
+                                    color: colorBuilding // Màu mặc định
+                                }
+                            }]
+                        }
+                    };
+
+                    updateLayer();
+                });
 
                 features.forEach((feature, index) => {
                     const row = table.insertRow();
@@ -106,6 +133,21 @@
                     row.innerHTML = `<td>${roomName}</td>`;
 
                     row.addEventListener("click", () => {
+                        isClicked = true
+                        building.renderer = {
+                            type: "simple",
+                            symbol: {
+                                type: "polygon-3d",
+                                symbolLayers: [{
+                                    type: "extrude",
+                                    size: 120,
+                                    material: {
+                                        color: colorBuildingClick // Màu mặc định
+                                    }
+                                }]
+                            }
+                        };
+                        updateLayer();
                         if (currentHighlightHandle) {
                             currentHighlightHandle.remove();
                             currentHighlightHandle = null;
@@ -198,7 +240,8 @@
             
 
             // Khỏi tạo Biến màu trong suốt cho các lớp GeoJSON
-            const colorBuilding = [153, 217, 234, 0.5 ];
+            const colorBuilding = [153, 217, 234];
+            const colorBuildingClick = [153, 217, 234, 0.5 ];
             const colorFloor = [242, 235, 196, 0.2]
             const railingFloor = [188, 215, 216, 0.2]
         
@@ -252,7 +295,7 @@
                         type: "extrude",
                         size: 120,
                         material: {
-                            color: colorBuilding
+                            color: isClicked ? colorBuildingClick : colorBuilding
                         }
                       
                     }]
@@ -424,6 +467,7 @@
                 },
                 popup: { defaultPopupTemplateEnabled: true }
             });
+            const initialCamera = view.camera.clone();
             building.when(() => {
                 // Giả sử phần tử đầu tiên trong GeoJSON được sử dụng
                 building.queryFeatures().then((result) => {
@@ -475,8 +519,9 @@
             addGeoJSONLayer(
                 map,
                 "http://localhost:5000/api/simpleStructures/getStructureByNameVip/window",
-                [93,123,150,1]
+                isClicked ? [93,123,150,0.5] : [93,123,150,1]
             );
+
 
             // const graphicsLayer = new GraphicsLayer();
             // map.add(graphicsLayer);
