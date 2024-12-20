@@ -39,6 +39,8 @@ router.post('/addNode', async (req, res) => {
     }
 });
 
+
+
 router.get('/getAllNodes', async (req, res) => {
     try {
         const nodes = await Node.find({});

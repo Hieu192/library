@@ -123,8 +123,6 @@
                             }]
                         }
                     };
-
-                    updateLayer();
                 });
 
                 features.forEach((feature, index) => {
@@ -147,7 +145,6 @@
                                 }]
                             }
                         };
-                        updateLayer();
                         if (currentHighlightHandle) {
                             currentHighlightHandle.remove();
                             currentHighlightHandle = null;
