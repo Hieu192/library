@@ -90,19 +90,17 @@ function BookDetail() {
             >
               {book.description}
             </p>
-            {!isDescriptionExpanded && (
-              <div
-                style={{
-                  position: "absolute",
-                  left: "0px",
-                  bottom: "55px",
-                  width: "100%",
-                  height: "100px",
-                  background:
-                    "linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))",
-                }}
-              ></div>
-            )}
+   {        !isDescriptionExpanded&&  <div
+              style={{
+                position: "absolute",
+                left: "0px",
+                bottom: "55px",
+                width: "100%",
+                height: "100px",
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))",
+              }}
+            ></div>}
             <div
               style={{
                 display: "flex",
