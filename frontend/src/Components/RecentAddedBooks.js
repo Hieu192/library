@@ -23,7 +23,7 @@ function RecentAddedBooks() {
                                 className="book-card"
                             >
                                 <img src={book.image[0].url} alt=""></img>
-                                <p className="bookcard-title">{book.bookName}</p>
+                                <p className="bookcard-title collapsed-1">{book.bookName}</p>
                                 <p className="bookcard-author">{book.author}</p>
                                 <div className="bookcard-category">
                                 <p>{book.categories[0].categoryName}</p>
@@ -40,7 +40,7 @@ function RecentAddedBooks() {
                                 className="book-card"
                             >
                                 <img src={book.image[0].url} alt=""></img>
-                                <p className="bookcard-title">{book.bookName}</p>
+                                <p className="bookcard-title collapsed-1">{book.bookName}</p>
                                 <p className="bookcard-author">{book.author}</p>
                                 <div className="bookcard-category">
                                 <p>{book.categories[0].categoryName}</p>
